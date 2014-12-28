@@ -47,9 +47,8 @@ public abstract class RobotTeleop {
 	}
 
 	/**
-	 * Commands RobotShoot to target a new tension. If targetInManualMode, it
-	 * uses secondary A, B, and D-Pad to select tension. Otherwise, it requests
-	 * the target from RobotVision.
+	 * Commands RobotShoot to target a new tension. If targetInManualMode, it uses secondary A, B,
+	 * and D-Pad to select tension. Otherwise, it requests the target from RobotVision.
 	 */
 	private static void updateShooterTensionTarget() {
 		if (!targetInManualMode) {
@@ -80,25 +79,8 @@ public abstract class RobotTeleop {
 		}
 	}
 
-	public static void teleop() {
-		updateShooterTensionTarget();
-		RobotPickup.moveToShootPosition();
-		///////////////
-		if (Gamepad.primary.getB()) {
-			RobotDrive.shiftHigh();
-		} else if (Gamepad.primary.getA()) {
-			RobotDrive.shiftLow();
-		}
-
-		// Begin drive control
-		teleopDrive();
-		// End Drive Control
-		// Robot Pickup Control:
-		// Both primary & secondary control rollers, potentially conflicting
-		// resolved by summing (warn drivers)
+	public static void teleopPickup() {
 		RobotPickup.setRollerSpeed(Gamepad.primary.getRightY() + Gamepad.secondary.getLeftY());
-
-
 		if (Gamepad.secondary.getY()) {
 			RobotPickup.openRollerArm();
 		} else if (Gamepad.secondary.getX()) {
@@ -136,6 +118,29 @@ public abstract class RobotTeleop {
 				RobotPickup.moveToCatchPosition();
 				break;
 		}
+	}
+
+	public static void teleop() {
+		updateShooterTensionTarget();
+		RobotPickup.moveToShootPosition();
+		///////////////
+		if (Gamepad.primary.getB()) {
+			RobotDrive.shiftHigh();
+		} else if (Gamepad.primary.getA()) {
+			RobotDrive.shiftLow();
+		}
+
+		// Begin drive control
+		teleopDrive();
+		// End Drive Control
+		// Robot Pickup Control:
+		// Both primary & secondary control rollers, potentially conflicting
+		// resolved by summing (warn drivers)
+
+		teleopPickup();
+
+
+
 
 		if (Math.abs(Gamepad.secondary.getTriggers()) > 0.9) {
 			if (!shootDebounce) {
