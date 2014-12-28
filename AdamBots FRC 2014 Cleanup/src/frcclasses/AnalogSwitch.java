@@ -12,25 +12,30 @@ import edu.wpi.first.wpilibj.AnalogChannel;
  *
  * @author Tyler
  */
-public class AnalogSwitch {
-	
+public final class AnalogSwitch {
+
 	//// VARIABLES -------------------------------------------------------------
-	private AnalogChannel swit; // truely named switch but that's reserved
-	
+
+	private final AnalogChannel analogSensor; // truely named switch but that's reserved
+	private final double valueThreshold;
+
 	//// CONSTRUCTORS ----------------------------------------------------------
-	// constructor that takes a channel
-	public AnalogSwitch(int channel) {
-		swit = new AnalogChannel(channel);
-	}
-	
+
 	// constructor that takes a channel and a sidecard number
-	public AnalogSwitch(int card, int channel) {
-		swit = new AnalogChannel(card, channel);
+	public AnalogSwitch(AnalogChannel analogSensor) {
+		this.analogSensor = analogSensor;
+		this.valueThreshold = 2.5;
 	}
-	
+
+	// constructor that takes a channel and a sidecard number
+	public AnalogSwitch(AnalogChannel analogSensor, double valueThreshold) {
+		this.analogSensor = analogSensor;
+		this.valueThreshold = valueThreshold;
+	}
+
 	//// METHODS ---------------------------------------------------------------
 	// gets wether the switch is considered on or off
 	public boolean get() {
-		return swit.getVoltage() >= 2.5;
+		return analogSensor.getVoltage() >= valueThreshold;
 	}
 }

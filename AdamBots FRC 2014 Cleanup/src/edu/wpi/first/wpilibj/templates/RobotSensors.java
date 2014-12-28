@@ -38,7 +38,7 @@ public abstract class RobotSensors {
 		configSwitchB = new AnalogChannel(4);
 		configSwitchC = new AnalogChannel(5);
 		pickupPotentiometer = new AnalogPotentiometer(2);
-		shooterLoadedLim = new AnalogSwitch(6);
+		shooterLoadedLim = new AnalogSwitch(new AnalogChannel(6));
 		//Now in port TWO on both robots.
 
 		//// Digital In 1
