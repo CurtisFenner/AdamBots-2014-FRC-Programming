@@ -5,7 +5,6 @@
  */
 package subsystems;
 
-import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frcclasses.Gamepad;
 import edu.wpi.first.wpilibj.templates.MainRobot;
@@ -67,12 +66,11 @@ public abstract class RobotShoot {
 	public static void initialize() {
 		closeLatch();
 		stopSpeed();
-		stage = 0;
 		RobotSensors.shooterWinchEncoder.start();
 	}
 
 	public static void startShoot() {
-		changeStage(2);
+		changeStage(30);
 		zeroedBefore = false;
 	}
 
@@ -89,7 +87,7 @@ public abstract class RobotShoot {
 	}
 
 	public static boolean isReadyToShoot() {
-		return getStage() == 6 && MathUtils.inRange(getEncoder(), tensionTargetTicks, TENSION_TOLERANCE * 1.5);
+		return getStage() == 60 && MathUtils.inRange(getEncoder(), tensionTargetTicks, TENSION_TOLERANCE * 1.5);
 	}
 
 	//// STAGES ----------------------------------------------------------------
@@ -153,7 +151,7 @@ public abstract class RobotShoot {
 	// reshoot method
 	// needs to be called before reshooting
 	public static void shoot() {
-		if (RobotPickup.pickupCanShoot() && !(getStage() >= 30 && getStage() <= 50)) {
+		if (RobotPickup.pickupCanShoot() && (getStage() == 60 || getStage() == -99)) {
 			SmartDashboard.putBoolean("Truss: ", RobotPickup.isPickupInTrussPosition());
 			changeStage(30);
 			MainRobot.logData += getEncoder() + "\t" + RobotVision.getDistance() + "\n";
