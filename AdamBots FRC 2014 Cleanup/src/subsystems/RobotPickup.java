@@ -116,6 +116,10 @@ public abstract class RobotPickup {
 		return isPickupInPosition(CATCH_POSITION);
 	}
 
+	public static boolean pickupCanShoot() {
+		return isPickupInShootPosition() || isPickupInTrussPosition();
+	}
+
 	public static double getArmAngleAboveHorizontal() {
 		// apply some function to this to convert to angle
 		return RobotSensors.pickupPotentiometer.get() * 73.015 - 179.257;  // Competition robot
