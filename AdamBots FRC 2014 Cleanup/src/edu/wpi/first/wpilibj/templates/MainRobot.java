@@ -6,6 +6,9 @@
 /*----------------------------------------------------------------------------*/
 package edu.wpi.first.wpilibj.templates;
 
+import autons.StandardOneBallAuton;
+import autons.AutonZero;
+import autons.RobotAuton;
 import frcclasses.Gamepad;
 import auxiliary.FileWrite;
 import subsystems.RobotShoot;
@@ -15,7 +18,6 @@ import subsystems.RobotPickup;
 import subsystems.RobotVision;
 import edu.wpi.first.wpilibj.*;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj.templates.Autons.*;
 import java.util.Calendar;
 
 /**
