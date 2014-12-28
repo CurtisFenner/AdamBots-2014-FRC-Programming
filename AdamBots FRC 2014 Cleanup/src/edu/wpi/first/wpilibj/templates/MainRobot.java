@@ -93,7 +93,6 @@ public class MainRobot extends IterativeRobot {
 	}
 
 	public void teleopInit() {
-		SmartDashboard.putNumber("Target Ticks", 1200);
 		RobotDrive.enableSmoothing();
 		RobotLights.underglowOn();
 		timer = new Timer();
