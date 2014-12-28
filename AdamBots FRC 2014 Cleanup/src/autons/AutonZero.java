@@ -42,26 +42,6 @@ public class AutonZero {
 	}
 	
 	public static void stepOne() {
-		/*if (!RobotPickup.isPickupInPickupPosition() && !pickupBeenDown) {
-			RobotPickup.moveToPickupPosition();
-		} else {
-			pickupBeenDown = true;
-		}
-		
-		if (pickupBeenDown) {
-			RobotPickup.moveToShootPosition();
-		}
-		
-		if (timer.get() == 0) {
-			timer.start();
-		}
-		if (!beenThru *//*&& RobotShoot.unwind()*//*) {
-			//System.out.println("Unwinding: " + timer.get());
-			beenThru = true;
-		}*/
-		/*if (RobotShoot.unwind() && pickupBeenDown) {
-			step = 2;
-		}*/
 		if (timer.get() == 0) {
 			timer.start();
 			RobotShoot.startShoot();

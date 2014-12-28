@@ -11,7 +11,6 @@ import subsystems.RobotPickup;
 import subsystems.RobotVision;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj.templates.*;
 
 /**
  *
@@ -38,33 +37,11 @@ public class StandardOneBallAuton extends AutonZero {
 
 	// Moves forward while putting the arm down
 	public static void stepTwo() {
-		
-
-		/*if (averageDriveEncoder <= STRAIGHT_DISTANCE) {
-		 if (secondTimer.get() == 0) {
-		 secondTimer.start();
-		 }
-		 if (secondTimer.get() <= 0.25) {
-		 RobotPickup.setRollerSpeed(1.0);
-		 } else {
-		 RobotPickup.setRollerSpeed(0.0);
-		 }
-			
-		 System.out.println("-->stage 2: drive speed = " + forward);
-		 } else {
-		 RobotDrive.drive(0, 0);
-		 System.out.println("Setting to 0");
-
-		 //		}*/
-		/*if (RobotShoot.rewindShooter() && averageDriveEncoder >= STRAIGHT_DISTANCE && RobotPickup.isPickupInShootPosition()) {
-		 step = 3;
-		 }*/
 	}
 
 	// shoots if the goal is hot or timer says so
 	public static void stepThree() {
 		RobotPickup.openRollerArm();
-		//// TODO : TAKE THE || true OUT!!!
 		if (secondTimer.get() == 0 && RobotVision.isHot() && RobotShoot.isReadyToShoot()) {
 			secondTimer.start();
 		}
@@ -72,9 +49,10 @@ public class StandardOneBallAuton extends AutonZero {
 			secondTimer.stop();
 			secondTimer.reset();
 			RobotShoot.shoot();
-			//FileWrite.writeFile("washot.txt", "\nhot: " + RobotVision.isHot() + "\nTime: " + timer.get());
+			//FileWrite.writeFile("autonshot.txt", "\nhot: " + RobotVision.isHot() + "\nTime: " + timer.get());
 			startMovingBack = timer.get() + 0.5;
-			step = 99;		// IF YOU EVER WANT OT MOVE BACK AFTER SHOOTING IN AUTON, CHANGE TO step = 4;
+			step = 99;
+			// If you ever want to move back after shooting in autonous, change to step 4;
 		}
 	}
 
@@ -88,7 +66,6 @@ public class StandardOneBallAuton extends AutonZero {
 	// moves back to the white line
 	public static void stepFive() {
 		if (averageDriveEncoder >= BACKWARDS_DISTANCE) {
-			//double forward = speed * Math.max(-1, Math.min(1, (BACKWARDS_DISTANCE - averageDriveEncoder) / 1000.0)) - .2;
 			double forward = 1.0;
 			RobotDrive.drive(forward, forward);
 		} else {
@@ -99,34 +76,26 @@ public class StandardOneBallAuton extends AutonZero {
 
 	// update method
 	public static void update() {
-		//averageDriveEncoder = (RobotDrive.getEncoderLeftTicks() + RobotDrive.getEncoderRightTicks()) / 2.0;
 		SmartDashboard.putBoolean("vision IS HOT", RobotVision.isHot());
 		switch (step) {
 			case 1:
-				//System.out.println("Stage 1");
 				stepOne();
 				break;
 			case 2:
-				//System.out.println("Stage 2");
 				stepTwo();
 				break;
 			case 3:
-				//System.out.println("Stage 3");
 				stepThree();
 				break;
-			//// CHANGED: COMMENTED OUT THE BELOW
-			////		  SHOULD NOT MOVE BACKWARDS NOW
+			// Case 4, 5 make robot move backward
 			/*case 4:
-				//System.out.println("Stage 4");
-				stepFour();
-				break;
-			case 5:
-				//System.out.println("Stage 5");
-				stepFive();
-				break;*/
+			 stepFour();
+			 break;
+			 case 5:
+			 stepFive();
+			 break;*/
 			default:
 				break;
 		}
-		SmartDashboard.putBoolean("vision HOT GOAL", RobotVision.isHot());
 	}
 }
