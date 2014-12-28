@@ -33,7 +33,7 @@ public abstract class RobotShoot {
 	private static double tensionTargetTicks = 1075; // WONT CHANGE AUTON VALUE, GO TO THE AUTON CLASS
 	private static double givenTensionTargetTicks = 1165;
 	private static Timer timer;
-	private static double updatedSpeed;
+	private static double currentSpeed;
 	private static boolean inManualMode = true;
 	private static boolean latch;
 	private static int stage;
@@ -64,7 +64,7 @@ public abstract class RobotShoot {
 	public static void initialize() {
 		latch();
 		timer = new Timer();
-		updatedSpeed = 0.0;
+		stopSpeed();
 		stage = 0;
 		RobotSensors.shooterWinchEncoder.start();
 	}
@@ -138,7 +138,7 @@ public abstract class RobotShoot {
 		automatedUnwind();
 		SmartDashboard.putNumber("STAGE 4 TIMER", timer.get());
 		if ((zeroedBefore && (timer.get() > 0.5 || getEncoder() < -200)) || timer.get() > 3) {
-			updatedSpeed = 0.0;
+			stopSpeed();
 			System.out.println("RobotShoot.java\tSTOP:");
 			System.out.println("RobotShoot.java\tTimer " + timer.get());
 			System.out.println("RobotShoot.java\tEncoder " + getEncoder());
@@ -161,12 +161,12 @@ public abstract class RobotShoot {
 			timer.reset();
 			stage = 6;
 		}
-		updatedSpeed = 0;
+		stopSpeed();
 	}
 
 	// rewinds the shooter
 	public static void rewindShooter() {
-		updatedSpeed = 0;
+		setSpeed( 0 );
 		if (getEncoder() <= tensionTargetTicks - TENSION_TOLERANCE && RobotSensors.shooterLoadedLim.get()) {
 			automatedWind();
 			return;
@@ -175,12 +175,11 @@ public abstract class RobotShoot {
 		if (getEncoder() >= tensionTargetTicks + TENSION_TOLERANCE && !getAtBack()) {
 			automatedUnwind();
 			if (Math.abs(getEncoder() - tensionTargetTicks) < TENSION_TOLERANCE * 3) {
-				updatedSpeed /= 5.0;
+				multiplySpeed(1.0 / 5.0);
 			}
 			return;
 		}
-
-		updatedSpeed = 0.0;
+		stopSpeed();
 	}
 
 	public static void reset() {
@@ -251,7 +250,7 @@ public abstract class RobotShoot {
 	// used for calibration
 	public static void manualShoot() {
 		stage = -99;
-		updatedSpeed = Gamepad.secondary.getRightY();
+		setSpeed( Gamepad.secondary.getRightY() );
 
 		if (Math.abs(Gamepad.secondary.getTriggers()) > .8 && RobotPickup.pickupCanShoot()) {
 			releaseLatch();
@@ -262,17 +261,17 @@ public abstract class RobotShoot {
 
 	// sets speed to the unwind speed
 	private static void automatedUnwind() {
-		updatedSpeed = UNWIND_SPEED;
+		setSpeed(UNWIND_SPEED);
 	}
 
 	// sets the speed to the wind speed
 	private static void automatedWind() {
-		updatedSpeed = WIND_SPEED;
+		setSpeed(WIND_SPEED);
 	}
 
 	// sets the speed to 0.0
-	public static void stopMotors() {
-		updatedSpeed = 0.0;
+	public static void stopSpeed() {
+		setSpeed(0);
 	}
 
 	// Releases the pnuematic
@@ -305,27 +304,42 @@ public abstract class RobotShoot {
 			automatedShoot();
 		}
 
-		if (getEncoder() <= BACKWARDS_REV && updatedSpeed <= 0) {
-			updatedSpeed = 0;
+		if (getEncoder() <= BACKWARDS_REV && movingBackward()) {
+			stopSpeed();
 		}
-		if (getEncoder() >= MAX_REVS && updatedSpeed >= 0) {
-			updatedSpeed = 0;
+		if (getEncoder() >= MAX_REVS && movingForward()) {
+			stopSpeed();
 		}
 
 
 
-		if (!RobotSensors.shooterLoadedLim.get() && updatedSpeed >= 0) {
-			updatedSpeed = 0.0;
+		if (!RobotSensors.shooterLoadedLim.get() && movingForward()) {
+			stopSpeed();
 		}
 		// sets pnuematics
 		RobotActuators.latchRelease.set(latch);
 
 		// sets motor
-		RobotActuators.shooterWinch.set(updatedSpeed);
+		RobotActuators.shooterWinch.set(getCurrentSpeed());
+	}
+
+	public static boolean movingBackward() {
+		return getCurrentSpeed() <= 0;
+	}
+	public static boolean movingForward() {
+		return getCurrentSpeed() >= 0;
+	}
+
+	public static void multiplySpeed(double amount) {
+		currentSpeed *= amount;
+	}
+
+	public static void setSpeed(double speed) {
+		currentSpeed = speed;
 	}
 
 	public static double getCurrentSpeed() {
-		return updatedSpeed;
+		return currentSpeed;
 	}
 
 	public static double getEncoder() {

@@ -165,7 +165,7 @@ public class MainRobot extends IterativeRobot {
 	public void disabledPeriodic() {
 		try {
 			RobotDrive.stopDrive();
-			RobotShoot.stopMotors();
+			RobotShoot.stopSpeed();
 			AutonZero.reset();
 			DashboardPut.put();
 			if (logData.length() != 0) {
