@@ -21,8 +21,7 @@ public abstract class RobotTeleop {
 	private static boolean pickupPositionDebounce = false;
 	private static boolean shootDebounce = false;
 	//
-	private static boolean previousShooterLeft = false;
-	private static boolean previousShooterRight = false;
+	private static boolean targetAdjustDebounce = false;
 	private static boolean targetInManualMode = true;
 	private static boolean shooterInManualMode = false;
 
@@ -47,12 +46,15 @@ public abstract class RobotTeleop {
 		RobotDrive.drive(leftPWM, rightPWM);
 	}
 
-	private static void updateShooterTarget() {
+	/**
+	 * Commands RobotShoot to target a new tension. If targetInManualMode, it
+	 * uses secondary A, B, and D-Pad to select tension. Otherwise, it requests
+	 * the target from RobotVision.
+	 */
+	private static void updateShooterTensionTarget() {
 		if (!targetInManualMode) {
 			//Automatic targetting Mode (Using camera to figure out encoder)
 			RobotShoot.setTargetTicks(RobotVision.getEncoder());
-			// reinstated the vision's encoder
-			//RobotShoot.setTargetTicks(1300);
 		} else {
 			//Manual targetting mode (using driver to tap left and right)
 			if (Gamepad.secondary.getA()) {
@@ -61,28 +63,25 @@ public abstract class RobotTeleop {
 			if (Gamepad.secondary.getB()) {
 				RobotShoot.setTargetTicks(1300);
 			}
-
-			if (Gamepad.secondary.getDPadLeft()) {
-				if (!previousShooterLeft) {
-					RobotShoot.adjustTargetDown();
-				}
-				previousShooterLeft = true;
-			} else {
-				previousShooterLeft = false;
+			boolean adjustDown = Gamepad.secondary.getDPadLeft();
+			boolean adjustUp = Gamepad.secondary.getDPadRight();
+			if (!adjustDown && !adjustUp) {
+				targetAdjustDebounce = false;
 			}
-			if (Gamepad.secondary.getDPadRight()) {
-				if (!previousShooterRight) {
-					RobotShoot.adjustTargetUp();
-				}
-				previousShooterRight = true;
-			} else {
-				previousShooterRight = false;
+			if (targetAdjustDebounce) {
+				return;
+			}
+			if (adjustDown) {
+				RobotShoot.adjustTargetDown();
+			}
+			if (adjustUp) {
+				RobotShoot.adjustTargetUp();
 			}
 		}
 	}
 
 	public static void teleop() {
-		updateShooterTarget();
+		updateShooterTensionTarget();
 		RobotPickup.moveToShootPosition();
 		///////////////
 		if (Gamepad.primary.getB()) {
@@ -151,10 +150,10 @@ public abstract class RobotTeleop {
 
 		////////////////////////
 
-		if (!shooterInManualMode) {
-			RobotShoot.useAutomatic();
-		} else {
+		if (shooterInManualMode) {
 			RobotShoot.useManual();
+		} else {
+			RobotShoot.useAutomatic();
 		}
 
 		if (Gamepad.secondary.getBack()) {
@@ -170,6 +169,8 @@ public abstract class RobotTeleop {
 			targetInManualMode = false;
 		}
 
+		// Override to force the shooter to rezero on next contact with the
+		// limit switch[?]
 		if (Gamepad.primary.getX() && Gamepad.primary.getY()) {
 			RobotShoot.zeroedBefore = false;
 		}
