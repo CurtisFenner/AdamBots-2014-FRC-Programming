@@ -164,11 +164,9 @@ public class MainRobot extends IterativeRobot {
 		SmartDashboard.putBoolean("Pressure Switch", RobotSensors.pressureSwitch.get());
 		if (!RobotSensors.pressureSwitch.get()) {
 			RobotActuators.compressor.set(Relay.Value.kOn);
-			//System.out.println("Setting the compressor to ON");
 		} else {
 			RobotActuators.compressor.set(Relay.Value.kOff);
 		}
-		//System.out.println("runCompressor finished");
 	}
 
 	public void disabledPeriodic() {
@@ -177,7 +175,6 @@ public class MainRobot extends IterativeRobot {
 			RobotShoot.stopMotors();
 			AutonZero.reset();
 			DashboardPut.put();
-			//maxTrueCount = 0;
 			if (logData.length() != 0) {
 				FileWrite.writeFile("log" + Calendar.HOUR + "_" + Calendar.MINUTE + ".txt", logData);
 			}
