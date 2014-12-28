@@ -264,23 +264,12 @@ public abstract class RobotShoot {
 	public static void manualShoot() {
 		stage = -99;
 		updatedSpeed = Gamepad.secondary.getRightY();
-		//SmartDashboard.putBoolean("is the shooterLoadedLim", RobotSensors.shooterLoadedLim.get());
-		// TODO: TAKE OUT THE OR TRUE FOR THE REAL ROBOT WHEN THE SWITCH IS FIXED
-		/*if ((RobotSensors.shooterLoadedLim.get() || true) && getEncoder() <= BACKWARDS_REV && Gamepad.secondary.getRightY() <= 0.0) {
-		 updatedSpeed = 0.0;
-		 System.out.println("Can't move back");
-		 }*/
 
-		//// TODO: UNCOMMENT IT OUT WHEN IT IS DONE
-		/*if (RobotSensors.shooterLoadedLim.get() && updatedSpeed >= 0.0) {
-		 updatedSpeed = 0.0;
-		 }*/
 		if (Math.abs(Gamepad.secondary.getTriggers()) > .8 && (RobotPickup.isPickupInShootPosition() || RobotPickup.isPickupInTrussPosition())) {
 			releaseLatch();
 		} else {
 			latch();
 		}
-		//RobotPickup.moveToShootPosition();
 	}
 
 	// sets speed to the unwind speed
