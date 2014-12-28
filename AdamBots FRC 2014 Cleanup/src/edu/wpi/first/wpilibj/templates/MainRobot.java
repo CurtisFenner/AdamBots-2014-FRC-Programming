@@ -124,6 +124,10 @@ public class MainRobot extends IterativeRobot {
 	}
 	private int counterOnTest; //Used in testPeriodic, testInit for debug.
 
+	public void testInit() {
+		counterOnTest = 0;
+	}
+
 	/**
 	 * This function is called periodically during test mode
 	 */
@@ -154,10 +158,6 @@ public class MainRobot extends IterativeRobot {
 		RobotActuators.rightDrive.set(0.0);
 
 		System.out.println("counterOnTest: " + counterOnTest);
-	}
-
-	public void testInit() {
-		counterOnTest = 0;
 	}
 
 	private void runCompressor() {
