@@ -37,7 +37,6 @@ public abstract class RobotShoot {
 	private static double updatedSpeed;
 	private static boolean inManualMode = true;
 	private static boolean latch;
-	private static String currentStage;
 	private static int stage;
 	private static int returnStage = 0;
 	public static double voltage;
@@ -69,7 +68,6 @@ public abstract class RobotShoot {
 		latch();
 		timer = new Timer();
 		updatedSpeed = 0.0;
-		currentStage = "";
 		stage = 0;
 		gameTime = new Timer();
 		RobotSensors.shooterWinchEncoder.start();
@@ -100,7 +98,6 @@ public abstract class RobotShoot {
 	//// STAGES ----------------------------------------------------------------
 	// releases the latch
 	public static void releaseBall() {
-		currentStage = "1";
 		if (RobotPickup.isPickupInShootPosition() || RobotPickup.isPickupInTrussPosition()) {
 			releaseLatch();
 			stage = 2;
@@ -112,7 +109,6 @@ public abstract class RobotShoot {
 	// Is Shown in our diagram as the shooter head moving forward
 	// Nothing that is controlled is happening nows
 	public static void ballInMotion() {
-		currentStage = "2";
 
 		timer.stop();
 		timer.reset();
@@ -124,7 +120,6 @@ public abstract class RobotShoot {
 
 	// waiting the 0.5 seconds before unwinding the shooter motor
 	public static void waitToUnwind() {
-		currentStage = "3";
 		double time = timer.get();
 		if (time >= WAIT_TIME) {
 			timer.stop();
@@ -134,7 +129,6 @@ public abstract class RobotShoot {
 	}
 
 	public static void unwind() {
-		currentStage = "4";
 		releaseLatch();
 		if (getAtBack() && timer.get() <= .05) {
 			if (timer.get() == 0) {
@@ -166,7 +160,6 @@ public abstract class RobotShoot {
 
 	// relatches the shooter
 	public static void latchShooter() {
-		currentStage = "5";
 		if (timer.get() == 0.0) {
 			timer.start();
 		}
@@ -183,7 +176,6 @@ public abstract class RobotShoot {
 
 	// rewinds the shooter
 	public static void rewindShooter() {
-		currentStage = "6";
 		updatedSpeed = 0;
 		if (getEncoder() <= tensionTargetTicks - TENSION_TOLERANCE && RobotSensors.shooterLoadedLim.get()) {
 			automatedWind();
@@ -228,7 +220,7 @@ public abstract class RobotShoot {
 
 	// Automated shoot
 	public static void automatedShoot() {
-		SmartDashboard.putString("Current Shooter Stage", currentStage);
+		SmartDashboard.putString("Current Shooter Stage", stage + "");
 		SmartDashboard.putNumber("Shooter Timer", timer.get());
 		// shoots
 		switch (stage) {
