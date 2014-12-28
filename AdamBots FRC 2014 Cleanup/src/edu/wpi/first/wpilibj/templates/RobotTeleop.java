@@ -30,6 +30,13 @@ public abstract class RobotTeleop {
 	}
 
 	private static void teleopDrive() {
+
+		if (Gamepad.primary.getB()) {
+			RobotDrive.shiftHigh();
+		} else if (Gamepad.primary.getA()) {
+			RobotDrive.shiftLow();
+		}
+
 		double forwardRate = Gamepad.primary.getTriggers();
 		double turnRate = Gamepad.primary.getLeftX() * 1;
 		double leftDrive = forwardRate - turnRate;
@@ -163,11 +170,6 @@ public abstract class RobotTeleop {
 		updateShooterTensionTarget();
 		RobotPickup.moveToShootPosition();
 		///////////////
-		if (Gamepad.primary.getB()) {
-			RobotDrive.shiftHigh();
-		} else if (Gamepad.primary.getA()) {
-			RobotDrive.shiftLow();
-		}
 
 		// Begin drive control
 		teleopDrive();
