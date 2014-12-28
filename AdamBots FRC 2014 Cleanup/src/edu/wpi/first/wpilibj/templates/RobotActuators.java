@@ -24,9 +24,6 @@ public abstract class RobotActuators {
 	public static Solenoid rollerArmUp;
 	public static Solenoid rollerArmDown;
 	public static Solenoid latchRelease;
-	/*public static Solenoid greenLEDStrip;
-	public static Solenoid redLEDStrip;
-	public static Solenoid yellowGroundFXStrip;*/
 	public static Solenoid groundLEDStrip1;
 	public static Solenoid groundLEDStrip2;
 	public static Solenoid groundLEDStrip3;
