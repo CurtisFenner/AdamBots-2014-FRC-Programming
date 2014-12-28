@@ -59,6 +59,10 @@ public class MathUtils {
 
 	//// SIGN ------------------------------------------------------------------
 
+	public static double capValueMinMax(double value, double min, double max) {
+		return Math.max(min, Math.min(max, value));
+	}
+
 	public static boolean inRange(double value, double target, double range) {
 		return Math.abs(value - target) <= range;
 	}
