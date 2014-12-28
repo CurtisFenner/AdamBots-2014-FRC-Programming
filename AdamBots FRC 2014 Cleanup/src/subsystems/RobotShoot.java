@@ -132,7 +132,7 @@ public abstract class RobotShoot {
 		if (getAtBack() && timer.get() <= .05) {
 			if (timer.get() == 0) {
 				SmartDashboard.putNumber("back limit enc value: ", getEncoder());
-				RobotSensors.shooterWinchEncoder.reset();
+				resetEncoder();
 				timer.start();
 			}
 			zeroedBefore = true;
@@ -188,7 +188,7 @@ public abstract class RobotShoot {
 	}
 
 	public static void reset() {
-		RobotSensors.shooterWinchEncoder.reset();
+		resetEncoder();
 		gameTime.stop();
 		gameTime.reset();
 		timer.stop();
@@ -336,6 +336,9 @@ public abstract class RobotShoot {
 
 	public static double getEncoder() {
 		return RobotSensors.shooterWinchEncoder.get();
+	}
+	public static void resetEncoder() {
+		RobotSensors.shooterWinchEncoder.reset();
 	}
 
 }
