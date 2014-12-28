@@ -18,21 +18,22 @@ public abstract class RobotVision {
 
 	private static Timer timer = new Timer();
 	private static String database = "";
-	private static final String BEAGELIP = "10.2.45.3:3000";
+	private static final String BEAGEL_ADDRESS = "10.2.45.3:3000";
 	private static double previousEncoder = 1000;
 
 	public static double getEncoder() {
-		double d;
+		double distance;
 		double ticks;
 		if (ControlBox.isRed()) {
-			d = redDistance();
+			distance = redDistance();
 		} else {
-			d = blueDistance();
+			distance = blueDistance();
 		}
-		if (d <= 5) {
+		if (distance <= 5) {
 			return previousEncoder;
 		}
-		ticks = 1.4674 * d * d - 27.253 * d + 1226.5;
+		// A quadratic regression from tests
+		ticks = 1.4674 * distance * distance - 27.253 * distance + 1226.5;
 		previousEncoder = ticks;
 		return Math.max(500, Math.min(1500, previousEncoder));
 	}
@@ -40,19 +41,19 @@ public abstract class RobotVision {
 	public static void initialize() {
 		timer.start();
 		System.out.println("Robot Vision Intialize");
-		Thread q = new Thread(new Runnable() {
+		Thread visionThread = new Thread(new Runnable() {
 			public void run() {
 				while (true) {
 					try {
 						Thread.sleep(30);
 						retrieve();
 					} catch (Exception e) {
-						//System.out.println("Exception in thread: " + e);
+						//System.out.println("Exception in vision thread: " + e);
 					}
 				}
 			}
 		});
-		q.start();
+		visionThread.start();
 	}
 
 	public static String getProperty(String s) {
@@ -148,35 +149,33 @@ public abstract class RobotVision {
 	public static void retrieve() {
 		boolean connectionFailure = true;
 		try {
-			http = (SocketConnection) Connector.open("socket://" + BEAGELIP);
+			http = (SocketConnection) Connector.open("socket://" + BEAGEL_ADDRESS);
 			connectionFailure = false;
 			data = http.openInputStream();
-			String mdatabase = "";
+			String buildingDatabase = "";
 			int p = 1;
 			int length = 0;
-			int failTime = 0;
-			while (p >= 0 && length < 100 && failTime < 300) { // this is on the robot.
+			int failedAttempts = 0;
+			while (p >= 0 && length < 100 && failedAttempts < 15) {
 				if (data.available() > 0) {
 					p = data.read();
-					mdatabase += (char) p;
+					buildingDatabase += (char) p;
 					length++;
-					failTime = 0;
+					failedAttempts = 0;
 				} else {
 					try {
 						Thread.sleep(20);
 					} catch (Exception e) {
-
 					}
-					failTime += 20;
+					failedAttempts++;
 				}
 			}
-			System.out.println("RobotVision message received:\n\t" + length + "/100 , " + failTime + "/300ms");
-			System.out.println("database:" + mdatabase);
+			System.out.println("RobotVision message received:\n\t"
+					+ length + "/100 , " + failedAttempts + "/15 failed");
 			data.close();
 			http.close();
 
-			database = mdatabase;
-			//SmartDashboard.putNumber("vision DATABASE SIZE",database.length());
+			database = buildingDatabase;
 
 		} catch (Exception e) {
 			//System.out.println("Exception in RobotVision.retrieve() (networking):");
@@ -195,10 +194,8 @@ public abstract class RobotVision {
 			//System.out.println("Error Closing HTTP: " + e);
 		}
 		if (connectionFailure) {
-			//System.out.println("Connect Failure, gcing");
 			double t = timer.get();
 			System.gc();
-			//System.out.println("GC took " + (timer.get() - t) + " seconds");
 			try {
 				Thread.sleep(30000);
 			} catch (Exception e) {
