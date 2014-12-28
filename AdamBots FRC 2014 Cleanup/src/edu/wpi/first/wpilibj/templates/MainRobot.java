@@ -29,7 +29,6 @@ public class MainRobot extends IterativeRobot {
 
 	public static String cumulativeErrorList = "";
 	public static String logData = "";
-	public static int frames;
 
 	public static void handleException(Exception e, String from) {
 		cumulativeErrorList += "{EXCEPTION FROM " + from + "}\n";
@@ -94,7 +93,7 @@ public class MainRobot extends IterativeRobot {
 	public void teleopInit() {
 		RobotDrive.enableSmoothing();
 		RobotLights.underglowOn();
-		frames = 0;
+
 	}
 
 	public void disabledInit() {
@@ -111,7 +110,6 @@ public class MainRobot extends IterativeRobot {
 	public void teleopPeriodic() {
 		try {
 
-			frames++;
 			//System.out.println("FPS: " + frames / timer.get());
 			if (RobotShoot.gameTime.get() == 0) {
 				RobotShoot.gameTime.start();
