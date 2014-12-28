@@ -136,12 +136,7 @@ public abstract class RobotShoot {
 				RobotSensors.shooterWinchEncoder.reset();
 				timer.start();
 			}
-			//timer.start();
-			//if (!zeroedBefore) {
-			//RobotSensors.shooterWinchEncoder.reset();
 			zeroedBefore = true;
-			//WAS CHANGED LOOK BACK
-			//}
 			System.out.println("RobotShoot.java\tHIT BACK");
 		}
 
@@ -275,9 +270,6 @@ public abstract class RobotShoot {
 	// sets speed to the unwind speed
 	private static void automatedUnwind() {
 		updatedSpeed = UNWIND_SPEED;
-		/*if (!zeroedBefore) {
-		 updatedSpeed = UNWIND_SPEED * 2.0/3.0;
-		 }*/
 	}
 
 	// sets the speed to the wind speed
@@ -288,13 +280,11 @@ public abstract class RobotShoot {
 	// sets the speed to 0.0
 	public static void stopMotors() {
 		updatedSpeed = 0.0;
-		//stage = 99;
 	}
 
 	// Releases the pnuematic
 	public static void releaseLatch() {
 		latch = true;
-		//zeroEncoder();
 	}
 
 	// latches the pnuematic
@@ -316,18 +306,12 @@ public abstract class RobotShoot {
 	 }*/
 	//// UPDATE METHODS --------------------------------------------------------
 	public static void update() {
-		if (getEncoder() >= 100 && !getAtBack()) {
-			//System.out.println("Bad limit switch: " + getEncoder());
-		}
 
 		// checks to see if the encoder should be zeroed
 		if ((getEncoder() <= BACKWARDS_REV && updatedSpeed <= 0.0) || (getEncoder() >= MAX_REVS && updatedSpeed >= 0.0)) {
 			updatedSpeed = 0.0;
 		}
 
-		/*if ((!getAtBack() && updatedSpeed <= 0) || (RobotSensors.shooterWinchEncoder.get() >= MAX_REVS && updatedSpeed >= 0.0)) {
-		 updatedSpeed = 0.0;
-		 }*/
 		SmartDashboard.putBoolean("Shooter At back", getAtBack());
 
 		if (!RobotSensors.shooterLoadedLim.get() && updatedSpeed >= 0) {
@@ -360,6 +344,5 @@ public abstract class RobotShoot {
 		voltage = RobotSensors.currentSensor.getVoltage();
 		current = (voltage - 500) * 0.05 - 100;
 		return current;
-		//System.out.println("Current = " + current + " Voltage = " + voltage); //Not too sure about the units, though. (most likely milli-)
 	}
 }
