@@ -18,7 +18,6 @@ public abstract class DashboardPut {
 
 	public static void put() {
 		//Shooter diagnostics:
-		SmartDashboard.putNumber("shooter WINCH CURRENT", RobotShoot.getCurrent());
 		SmartDashboard.putBoolean("shooter IS AT BACK", !RobotSensors.shooterAtBack.get());
 		SmartDashboard.putNumber("shooter EXPECT CURRENT", RobotShoot.getEncoder() * 0.01);
 		SmartDashboard.putNumber("shooter ENCODER", RobotShoot.getEncoder());
