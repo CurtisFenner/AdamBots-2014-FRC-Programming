@@ -62,7 +62,7 @@ public abstract class RobotShoot {
 
 	//// INIT ------------------------------------------------------------------
 	public static void initialize() {
-		latch();
+		closeLatch();
 		timer = new Timer();
 		stopSpeed();
 		stage = 0;
@@ -153,7 +153,7 @@ public abstract class RobotShoot {
 		if (timer.get() == 0.0) {
 			timer.start();
 		}
-		latch();
+		closeLatch();
 		//// TODO: CHANGE THE TIME ON THIS LATER ON
 		//// CHANGED: Latch time from 1.0
 		if (timer.get() >= 0.5) {
@@ -255,7 +255,7 @@ public abstract class RobotShoot {
 		if (Math.abs(Gamepad.secondary.getTriggers()) > .8 && RobotPickup.pickupCanShoot()) {
 			releaseLatch();
 		} else {
-			latch();
+			closeLatch();
 		}
 	}
 
@@ -280,7 +280,7 @@ public abstract class RobotShoot {
 	}
 
 	// latches the pnuematic
-	public static void latch() {
+	public static void closeLatch() {
 		latch = false;
 	}
 
