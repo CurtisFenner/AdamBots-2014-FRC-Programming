@@ -110,7 +110,6 @@ public class MainRobot extends IterativeRobot {
 	public void teleopPeriodic() {
 		try {
 
-			//System.out.println("FPS: " + frames / timer.get());
 			if (RobotShoot.gameTime.get() == 0) {
 				RobotShoot.gameTime.start();
 			}
@@ -118,7 +117,6 @@ public class MainRobot extends IterativeRobot {
 			ControlBox.update();
 
 			updateSystems();
-
 
 		} catch (Exception e) {
 			handleException(e, "teleopPeriodic");
