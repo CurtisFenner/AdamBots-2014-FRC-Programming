@@ -10,6 +10,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frcclasses.Gamepad;
 import edu.wpi.first.wpilibj.templates.MainRobot;
 import auxiliary.MathUtils;
+import auxiliary.StopWatch;
 import edu.wpi.first.wpilibj.templates.RobotActuators;
 import edu.wpi.first.wpilibj.templates.RobotSensors;
 
@@ -32,12 +33,14 @@ public abstract class RobotShoot {
 	//private static double tensionTargetTicks = 1200; // Practice robot
 	private static double tensionTargetTicks = 1075; // WONT CHANGE AUTON VALUE, GO TO THE AUTON CLASS
 	private static double givenTensionTargetTicks = 1165;
-	private static Timer timer;
 	private static double currentSpeed;
 	private static boolean inManualMode = true;
 	private static boolean latch;
 	private static int stage;
-	private static int returnStage = 0;
+	private static StopWatch stopWatch = new StopWatch();
+	private static StopWatch.Time stageStartTime = null;
+
+
 	// unwindes the shooter until it hits the back limit switch or reaches max revolutions
 	//and returns the limit value
 	public static boolean zeroedBefore = false;
@@ -63,7 +66,6 @@ public abstract class RobotShoot {
 	//// INIT ------------------------------------------------------------------
 	public static void initialize() {
 		closeLatch();
-		timer = new Timer();
 		stopSpeed();
 		stage = 0;
 		RobotSensors.shooterWinchEncoder.start();
@@ -92,165 +94,106 @@ public abstract class RobotShoot {
 
 	//// STAGES ----------------------------------------------------------------
 	// releases the latch
-	public static void releaseBall() {
-		if (RobotPickup.isPickupInShootPosition() || RobotPickup.isPickupInTrussPosition()) {
-			releaseLatch();
-			changeStage(2);
-		} else {
-			stage = returnStage;
-		}
-	}
+	public static void stage30() {
 
-	// Is Shown in our diagram as the shooter head moving forward
-	// Nothing that is controlled is happening nows
-	public static void ballInMotion() {
-
-		timer.stop();
-		timer.reset();
-		timer.start();
 		releaseLatch();
-
-		changeStage(3);
-	}
-
-	// waiting the 0.5 seconds before unwinding the shooter motor
-	public static void waitToUnwind() {
-		double time = timer.get();
-		if (time >= WAIT_TIME) {
-			timer.stop();
-			timer.reset();
-			changeStage(4);
+		if (deltaTime() >= WAIT_TIME) {
+			changeStage(40);
 		}
 	}
 
-	public static void unwind() {
+	public static void stage40() {
 		releaseLatch();
-		if (getAtBack() && timer.get() <= .05) {
-			if (timer.get() == 0) {
-				SmartDashboard.putNumber("back limit enc value: ", getEncoder());
-				resetEncoder();
-				timer.start();
-			}
-			zeroedBefore = true;
-			System.out.println("RobotShoot.java\tHIT BACK");
-		}
-
 		automatedUnwind();
-		SmartDashboard.putNumber("STAGE 4 TIMER", timer.get());
-		if ((zeroedBefore && (timer.get() > 0.5 || getEncoder() < -200)) || timer.get() > 3) {
+		if (getAtBack()) {
+			changeStage(45);
+		} else if (deltaTime() >= 3) {
+			changeStage(50);
+		}
+	}
+
+	public static void stage45() {
+		releaseLatch();
+		automatedUnwind();
+		if (deltaTime() >= 0.5 || getEncoder() < -200) {
 			stopSpeed();
-			System.out.println("RobotShoot.java\tSTOP:");
-			System.out.println("RobotShoot.java\tTimer " + timer.get());
-			System.out.println("RobotShoot.java\tEncoder " + getEncoder());
-			timer.stop();
-			timer.reset();
-			changeStage(5);
+			changeStage(50);
 		}
 	}
 
-	// relatches the shooter
-	public static void latchShooter() {
-		if (timer.get() == 0.0) {
-			timer.start();
-		}
+	public static void stage50() {
 		closeLatch();
-		//// TODO: CHANGE THE TIME ON THIS LATER ON
-		//// CHANGED: Latch time from 1.0
-		if (timer.get() >= 0.5) {
-			timer.stop();
-			timer.reset();
-			changeStage(6);
-		}
 		stopSpeed();
+		if (deltaTime() >= 0.5) {
+			changeStage(60);
+		}
 	}
 
-	// rewinds the shooter
-	public static void rewindShooter() {
-		stopSpeed();
+	public static void stage60() {
 		if (getEncoder() <= tensionTargetTicks - TENSION_TOLERANCE && RobotSensors.shooterLoadedLim.get()) {
 			automatedWind();
-			return;
-		}
-
-		if (getEncoder() >= tensionTargetTicks + TENSION_TOLERANCE && !getAtBack()) {
+		} else if (getEncoder() >= tensionTargetTicks + TENSION_TOLERANCE && !getAtBack()) {
 			automatedUnwind();
 			if (Math.abs(getEncoder() - tensionTargetTicks) < TENSION_TOLERANCE * 3) {
 				multiplySpeed(1.0 / 5.0);
 			}
-			return;
+		} else {
+			stopSpeed();
 		}
-		stopSpeed();
 	}
+
+
+
+
 
 	public static void reset() {
 		resetEncoder();
-		timer.stop();
-		timer.reset();
 	}
 
 	// reshoot method
 	// needs to be called before reshooting
 	public static void shoot() {
-		//// CHANGED: ADDED IN TO MAKE SURE WE DONT FIRE IN STAGES 2,3,4,5
-		if (RobotPickup.pickupCanShoot() && !(getStage() >= 2 && getStage() <= 5)) {
+		if (RobotPickup.pickupCanShoot() && !(getStage() >= 30 && getStage() <= 50)) {
 			SmartDashboard.putBoolean("Truss: ", RobotPickup.isPickupInTrussPosition());
-			if (getStage() != 1) {
-				returnStage = getStage();
-				MainRobot.logData += getEncoder() + "\t" + RobotVision.getDistance() + "\n";
-			}
-			changeStage(1);
-			timer.stop();
-			timer.reset();
+			changeStage(30);
+			MainRobot.logData += getEncoder() + "\t" + RobotVision.getDistance() + "\n";
 		}
 	}
 
 	// Automated shoot
 	public static void automatedShoot() {
 		SmartDashboard.putString("Current Shooter Stage", getStage() + "");
-		SmartDashboard.putNumber("Shooter Timer", timer.get());
+		SmartDashboard.putNumber("Shooter Timer", deltaTime());
 		// shoots
 		switch (getStage()) {
-			case 1:
-				releaseBall();
+			case 30:
+				stage30();
 				break;
-			case 2:
-				ballInMotion();
+			case 40:
+				stage40();
 				break;
-			case 3:
-				waitToUnwind();
+			case 45:
+				stage45();
 				break;
-			case 4:
-				unwind();
+			case 50:
+				stage50();
 				break;
-			case 5:
-				latchShooter();
-				break;
-			case 6:
-				rewindShooter();
-				break;
-			case 99:
-			case -99:
+			case 60:
+				stage60();
 				break;
 			default:
-				//System.out.println("You have stage Fright");
-				//System.out.println("Stage Issue: " + stage);
 				break;
 		}
 
-		SmartDashboard.putNumber("latch", latch ? 1 + MathUtils.rand(1) / 1000 : 0 + MathUtils.rand(1) / 1000);
-		SmartDashboard.putNumber("stage SHOOTER", getStage() + MathUtils.rand(1) / 1000);
-
-
-		if (getStage() != 1) {
-			returnStage = getStage();
-		}
+		SmartDashboard.putNumber("shooter LATCH", latch ? 1 + MathUtils.rand(1) / 1000 : 0 + MathUtils.rand(1) / 1000);
+		SmartDashboard.putNumber("shooter STAGE", getStage() + MathUtils.rand(1) / 1000);
 
 	}
 
 	// used for calibration
 	public static void manualShoot() {
 		changeStage(-99);
-		setSpeed( Gamepad.secondary.getRightY() );
+		setSpeed(Gamepad.secondary.getRightY());
 
 		if (Math.abs(Gamepad.secondary.getTriggers()) > .8 && RobotPickup.pickupCanShoot()) {
 			releaseLatch();
@@ -326,13 +269,20 @@ public abstract class RobotShoot {
 	public static int getStage() {
 		return stage;
 	}
+
 	public static void changeStage(int nextStage) {
+		stageStartTime = stopWatch.now();
 		stage = nextStage;
+	}
+
+	public static double deltaTime() {
+		return stopWatch.deltaSeconds(stageStartTime);
 	}
 
 	public static boolean movingBackward() {
 		return getCurrentSpeed() <= 0;
 	}
+
 	public static boolean movingForward() {
 		return getCurrentSpeed() >= 0;
 	}
