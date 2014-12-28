@@ -47,7 +47,7 @@ public abstract class RobotTeleop {
 		RobotDrive.drive(leftPWM, rightPWM);
 	}
 
-	public static void updateShooterTarget() {
+	private static void updateShooterTarget() {
 		if (!targetInManualMode) {
 			//Automatic targetting Mode (Using camera to figure out encoder)
 			RobotShoot.setTargetTicks(RobotVision.getEncoder());
@@ -82,6 +82,7 @@ public abstract class RobotTeleop {
 	}
 
 	public static void teleop() {
+		updateShooterTarget();
 		RobotPickup.moveToShootPosition();
 		///////////////
 		if (Gamepad.primary.getB()) {
