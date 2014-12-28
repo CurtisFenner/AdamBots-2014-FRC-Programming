@@ -22,18 +22,12 @@ public abstract class RobotVision {
 	private static double previousEncoder = 1000;
 
 	public static double getEncoder() {
-		double distance;
-		double ticks;
-		if (ControlBox.isRed()) {
-			distance = redDistance();
-		} else {
-			distance = blueDistance();
-		}
+		double distance = teamDistance();
 		if (distance <= 5) {
 			return previousEncoder;
 		}
 		// A quadratic regression from tests
-		ticks = 1.4674 * distance * distance - 27.253 * distance + 1226.5;
+		double ticks = 1.4674 * distance * distance - 27.253 * distance + 1226.5;
 		previousEncoder = ticks;
 		return Math.max(500, Math.min(1500, previousEncoder));
 	}
@@ -110,6 +104,14 @@ public abstract class RobotVision {
 			return redDistance();
 		}
 		return blueDistance();
+	}
+
+	public static double teamDistance() {
+		if (ControlBox.isRed()) {
+			return redDistance();
+		} else {
+			return blueDistance();
+		}
 	}
 
 	public static double redDistance() {
