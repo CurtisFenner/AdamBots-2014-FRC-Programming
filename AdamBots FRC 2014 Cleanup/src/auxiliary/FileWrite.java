@@ -15,17 +15,24 @@ import javax.microedition.io.Connector;
  */
 public class FileWrite {
 
-	public static void writeFile(String name, String contents) {
+	/**
+	 * Writes a string to a file, overwriting current contents.
+	 * @param filename The file name. Writes directly to the  ftp://10.2.45.2/
+	 * directory.
+	 * @param contents The contents of the file. The character encoding ought
+	 * to be ASCII, however, we have experience quirks with encoding before.
+	 */
+	public static void writeFile(String filename, String contents) {
 		try {
-			FileConnection file = (FileConnection) Connector.open("file:///" + name, Connector.WRITE);
+			FileConnection file = (FileConnection) Connector.open("file:///" + filename, Connector.WRITE);
 			file.create();
 			DataOutputStream stream = file.openDataOutputStream();
 			stream.writeChars(contents);
 			stream.flush();
 			stream.close();
 			file.close();
-		} catch (IOException e) {
-			System.out.println(e.getMessage());
+		} catch (IOException exception) {
+			System.out.println("writeFile(): " + exception.getMessage());
 		}
 	}
 }
