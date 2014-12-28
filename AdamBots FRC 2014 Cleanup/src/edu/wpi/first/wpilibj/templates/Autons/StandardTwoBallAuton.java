@@ -5,6 +5,10 @@
  */
 package edu.wpi.first.wpilibj.templates.Autons;
 
+import subsystems.RobotShoot;
+import subsystems.RobotDrive;
+import subsystems.RobotPickup;
+import subsystems.RobotVision;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.templates.*;
 

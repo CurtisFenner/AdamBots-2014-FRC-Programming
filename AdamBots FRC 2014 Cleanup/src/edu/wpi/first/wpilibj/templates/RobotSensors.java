@@ -5,6 +5,7 @@
  */
 package edu.wpi.first.wpilibj.templates;
 
+import frcclasses.AnalogSwitch;
 import edu.wpi.first.wpilibj.*;
 import edu.wpi.first.wpilibj.Gyro;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;

@@ -6,6 +6,13 @@
 /*----------------------------------------------------------------------------*/
 package edu.wpi.first.wpilibj.templates;
 
+import frcclasses.Gamepad;
+import auxiliary.FileWrite;
+import subsystems.RobotShoot;
+import subsystems.RobotLights;
+import subsystems.RobotDrive;
+import subsystems.RobotPickup;
+import subsystems.RobotVision;
 import edu.wpi.first.wpilibj.*;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.templates.Autons.*;
@@ -27,7 +34,7 @@ public class MainRobot extends IterativeRobot {
 		DriverStation ds = null;
 		try {
 			ds = DriverStation.getInstance();
-		} catch (Exception u) {
+		} catch (Exception dsInstanceException) {
 		}
 		if (ds != null) {
 			cumulativeErrorList += "\tmatch time\t" + ds.getMatchTime() + "\n";
@@ -37,7 +44,7 @@ public class MainRobot extends IterativeRobot {
 			FileWrite.writeFile("exceptions.txt", cumulativeErrorList);
 		} catch (Exception u) {
 		}
-		System.out.println("EXCEPTIONZ!!!!!!");
+		System.out.println("EXCEPTIONS!!!!!!");
 		System.out.println(cumulativeErrorList);
 	}
 	public static String logData = "";
@@ -75,7 +82,7 @@ public class MainRobot extends IterativeRobot {
 			runCompressor();
 			RobotAuton.update();
 			RobotDrive.update();
-			RobotPickup.update();													// TODO: UNDISABLE WHEN IT CAN DRIVE AGAIN
+			RobotPickup.update(); // TODO: Un-disable when it can drive again
 			RobotShoot.update();
 			DashboardPut.put();
 		} catch (Exception e) {

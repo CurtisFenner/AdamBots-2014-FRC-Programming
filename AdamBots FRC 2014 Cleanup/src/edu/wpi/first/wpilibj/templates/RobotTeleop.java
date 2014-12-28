@@ -5,6 +5,10 @@
  */
 package edu.wpi.first.wpilibj.templates;
 
+import frcclasses.Gamepad;
+import subsystems.RobotShoot;
+import subsystems.RobotDrive;
+import subsystems.RobotPickup;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**

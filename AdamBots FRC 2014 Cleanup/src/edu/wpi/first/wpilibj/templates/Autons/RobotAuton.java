@@ -6,11 +6,11 @@
 package edu.wpi.first.wpilibj.templates.Autons;
 
 import edu.wpi.first.wpilibj.Timer;
-import edu.wpi.first.wpilibj.templates.RobotDrive;
-import edu.wpi.first.wpilibj.templates.RobotPickup;
+import subsystems.RobotDrive;
+import subsystems.RobotPickup;
 import edu.wpi.first.wpilibj.templates.RobotSensors;
-import edu.wpi.first.wpilibj.templates.RobotShoot;
-import edu.wpi.first.wpilibj.templates.RobotVision;
+import subsystems.RobotShoot;
+import subsystems.RobotVision;
 
 /**
  *

@@ -5,6 +5,8 @@
  */
 package edu.wpi.first.wpilibj.templates.Autons;
 
+import subsystems.RobotDrive;
+import subsystems.RobotPickup;
 import edu.wpi.first.wpilibj.templates.*;
 
 /**

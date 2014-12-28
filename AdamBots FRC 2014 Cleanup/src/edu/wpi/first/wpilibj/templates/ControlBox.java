@@ -7,7 +7,6 @@ package edu.wpi.first.wpilibj.templates;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.DriverStationEnhancedIO;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  *

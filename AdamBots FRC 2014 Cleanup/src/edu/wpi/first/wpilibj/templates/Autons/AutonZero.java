@@ -6,6 +6,9 @@
 
 package edu.wpi.first.wpilibj.templates.Autons;
 
+import subsystems.RobotShoot;
+import subsystems.RobotDrive;
+import subsystems.RobotPickup;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.templates.*;

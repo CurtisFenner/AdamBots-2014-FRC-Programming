@@ -4,6 +4,9 @@
  */
 package edu.wpi.first.wpilibj.templates;
 
+import subsystems.RobotShoot;
+import subsystems.RobotPickup;
+import subsystems.RobotVision;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
