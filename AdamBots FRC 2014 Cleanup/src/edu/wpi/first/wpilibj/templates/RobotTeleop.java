@@ -136,6 +136,9 @@ public abstract class RobotTeleop {
 	}
 
 	public static void teleopShoot() {
+		// `shootDebounce` prevents repeated shot attempts.
+		// it will only fire the moment the triggers are pressed,
+		// and fire again only after letting go of the trigger
 		if (Math.abs(Gamepad.secondary.getTriggers()) > 0.9) {
 			if (!shootDebounce) {
 				System.out.println("Shoot!!!");
