@@ -1,5 +1,6 @@
 package subsystems;
 
+import auxiliary.MathUtils;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.templates.RobotActuators;
 import edu.wpi.first.wpilibj.templates.RobotSensors;
@@ -10,14 +11,16 @@ import edu.wpi.first.wpilibj.templates.RobotSensors;
  */
 public abstract class RobotPickup {
 
-	private static final double ANGLE_TOLERANCE = 10;                            //// TODO: CHANGE BACK TO 3
+	private static final double ANGLE_TOLERANCE = 10;
 	private static final double PICKUP_POSITION = -18;
-	//private static final double SHOOT_POSITION = 45.0;						// Practice robot
-	//private static final double SHOOT_POSITION = 48.0;						// Practice robot // Changed to bring angle up a few degrees.  Actually targeting 45
+	//private static final double SHOOT_POSITION = 45.0; // Practice robot
+	//private static final double SHOOT_POSITION = 48.0; // Practice robot
+	// Changed to bring angle up a few degrees.  Actually targeting 45
 	//private static final double TRUSS_POSITION = 55.0;
 	private static final double SHOOT_POSITION = 37.0;    //shoot position now 36 as of wednesday before kettering
-        // competition robot // targeting 5 degrees less than the practice one
-	private static final double TRUSS_POSITION = 50.0;							// competition robot // targeting 5 degrees less than the practice one
+	// competition robot
+	// targeting 5 degrees less than the practice one
+	private static final double TRUSS_POSITION = 5; // competition robot // targeting 5 degrees less than the practice one
 	private static final double CATCH_POSITION = 90;
 	private static double armTargetAngle = CATCH_POSITION;
 	private static double lastPosition = 0.0;
@@ -88,11 +91,13 @@ public abstract class RobotPickup {
 	}
 
 	public static boolean isPickupInPosition() {
-		return Math.abs(getArmAngleAboveHorizontal() - armTargetAngle) < ANGLE_TOLERANCE;
+		return MathUtils.inRange(getArmAngleAboveHorizontal(), armTargetAngle, ANGLE_TOLERANCE);
 	}
 
 	public static boolean isPickupInPosition(double angle) {
-		return Math.abs(getArmAngleAboveHorizontal() - angle) < ANGLE_TOLERANCE && armTargetAngle == angle && Math.abs(getVelocity()) < 50;
+		return MathUtils.inRange(getArmAngleAboveHorizontal(), angle, ANGLE_TOLERANCE)
+				&& armTargetAngle == angle
+				&& Math.abs(getVelocity()) < 50;
 	}
 
 	public static boolean isPickupInPickupPosition() {

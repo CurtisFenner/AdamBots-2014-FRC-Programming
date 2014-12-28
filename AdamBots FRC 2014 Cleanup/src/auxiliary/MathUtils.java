@@ -59,6 +59,10 @@ public class MathUtils {
 
 	//// SIGN ------------------------------------------------------------------
 
+	public static boolean inRange(double value, double target, double range) {
+		return Math.abs(value - target) <= range;
+	}
+
 	public static double deadzone(double x,double zoneRadius) {
 		return Math.abs(x) < zoneRadius ? 0 : x;
 	}
