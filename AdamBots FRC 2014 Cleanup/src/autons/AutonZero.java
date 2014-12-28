@@ -26,8 +26,6 @@ public class AutonZero {
 	public static double fallTimer = 2.0;
 	public static double closeTime = 2.0;
 	public static int step;
-	private static boolean beenThru = false;
-	private static boolean pickupBeenDown = false;
 	
 	public static void initialize() {
 		timer = new Timer();
