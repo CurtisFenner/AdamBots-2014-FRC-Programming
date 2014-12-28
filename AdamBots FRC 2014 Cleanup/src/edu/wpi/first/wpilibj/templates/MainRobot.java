@@ -153,9 +153,7 @@ public class MainRobot extends IterativeRobot {
 			RobotActuators.shooterWinch.set(0.0);
 		}
 
-		// CHANGED: from RobotDrive.stopDrive();
-		RobotActuators.leftDrive.set(0.0);
-		RobotActuators.rightDrive.set(0.0);
+		RobotDrive.stopDrive();
 
 		System.out.println("counterOnTest: " + counterOnTest);
 	}
