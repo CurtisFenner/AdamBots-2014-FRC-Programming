@@ -114,7 +114,6 @@ public class MainRobot extends IterativeRobot {
 				RobotShoot.gameTime.start();
 			}
 			RobotTeleop.teleop();
-			ControlBox.update();
 
 			updateSystems();
 

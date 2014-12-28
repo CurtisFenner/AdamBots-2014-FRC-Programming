@@ -62,10 +62,6 @@ public abstract class ControlBox {
 		return driverStation.getAnalogIn(channel);
 	}
 
-	public static void update() {
-		// nothing to do here
-	}
-
 	public static boolean getYellowButtonUpLeft() {
 		return !getDigitalIn(3);
 	}
