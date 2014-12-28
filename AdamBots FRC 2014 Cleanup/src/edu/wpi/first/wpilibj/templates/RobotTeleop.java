@@ -9,6 +9,7 @@ import frcclasses.Gamepad;
 import subsystems.RobotShoot;
 import subsystems.RobotDrive;
 import subsystems.RobotPickup;
+import subsystems.RobotVision;
 
 /**
  *
@@ -21,8 +22,55 @@ public abstract class RobotTeleop {
 	private static boolean pickupPositionDebounce = false;
 	private static boolean shootDebounce = false;
 	public static double DEBUG_OSCILLATE = 0.0;
+	//
+	public static boolean previousShooterLeft = false;
+	public static boolean previousShooterRight = false;
+	public static boolean targetInManualMode = true;
+	public static boolean shooterInManualMode = false;
 
-	public static void update() {
+	public static void teleop() {
+
+		//SmartDashboard.putBoolean("shooter AUTO ENCODER", ControlBox.getTopSwitch(3));
+		if (!targetInManualMode) {
+			//Automatic targetting Mode (Using camera to figure out encoder)
+			RobotShoot.setTargetTicks(RobotVision.getEncoder());
+			// reinstated the vision's encoder
+			//RobotShoot.setTargetTicks(1300);
+		} else {
+			//Manual targetting mode (using driver to tap left and right)
+			if (Gamepad.secondary.getA()) {
+				RobotShoot.setTargetTicks(1000);
+			}
+			if (Gamepad.secondary.getB()) {
+				RobotShoot.setTargetTicks(1300);
+			}
+
+			if (Gamepad.secondary.getDPadLeft()) {
+				if (!previousShooterLeft) {
+					RobotShoot.adjustTargetDown();
+				}
+				previousShooterLeft = true;
+			} else {
+				previousShooterLeft = false;
+			}
+			if (Gamepad.secondary.getDPadRight()) {
+				if (!previousShooterRight) {
+					RobotShoot.adjustTargetUp();
+				}
+				previousShooterRight = true;
+			} else {
+				previousShooterRight = false;
+			}
+		}
+
+		ControlBox.update();
+		RobotDrive.update();
+		RobotPickup.update();
+		RobotShoot.update();
+
+		RobotPickup.moveToShootPosition();
+
+		///////////////
 
 		if (Gamepad.primary.getB()) {
 			RobotDrive.shiftHigh();
@@ -110,6 +158,32 @@ public abstract class RobotTeleop {
 			shootDebounce = false;
 		}
 
+
+		////////////////////////
+
+		//SmartDashboard.putBoolean("TOP SWITCH TWO", ControlBox.getTopSwitch(2));
+		if (!shooterInManualMode) {
+			RobotShoot.useAutomatic();
+		} else {
+			RobotShoot.useManual();
+		}
+
+		if (Gamepad.secondary.getBack()) {
+			shooterInManualMode = true;
+		}
+		if (Gamepad.secondary.getStart()) {
+			shooterInManualMode = false;
+		}
+		if (Gamepad.primary.getBack()) {
+			targetInManualMode = true;
+		}
+		if (Gamepad.primary.getStart()) {
+			targetInManualMode = false;
+		}
+
+		if (Gamepad.primary.getX() && Gamepad.primary.getY()) {
+			RobotShoot.zeroedBefore = false;
+		}
 
 	}
 }
