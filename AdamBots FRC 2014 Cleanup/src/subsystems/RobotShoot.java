@@ -33,7 +33,6 @@ public abstract class RobotShoot {
 	private static double tensionTargetTicks = 1075; // WONT CHANGE AUTON VALUE, GO TO THE AUTON CLASS
 	private static double givenTensionTargetTicks = 1165;
 	private static Timer timer;
-	public static Timer gameTime;
 	private static double updatedSpeed;
 	private static boolean inManualMode = true;
 	private static boolean latch;
@@ -67,7 +66,6 @@ public abstract class RobotShoot {
 		timer = new Timer();
 		updatedSpeed = 0.0;
 		stage = 0;
-		gameTime = new Timer();
 		RobotSensors.shooterWinchEncoder.start();
 	}
 
@@ -187,8 +185,6 @@ public abstract class RobotShoot {
 
 	public static void reset() {
 		resetEncoder();
-		gameTime.stop();
-		gameTime.reset();
 		timer.stop();
 		timer.reset();
 	}
@@ -316,9 +312,6 @@ public abstract class RobotShoot {
 		}
 		// sets pnuematics
 		RobotActuators.latchRelease.set(latch);
-		if (RobotActuators.latchRelease.get()) {
-			System.out.println(gameTime.get() + "   Latches");
-		}
 
 		// sets motor
 		RobotActuators.shooterWinch.set(updatedSpeed);

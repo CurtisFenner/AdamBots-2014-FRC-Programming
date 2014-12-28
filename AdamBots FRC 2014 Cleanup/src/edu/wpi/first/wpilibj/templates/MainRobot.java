@@ -109,10 +109,6 @@ public class MainRobot extends IterativeRobot {
 	 */
 	public void teleopPeriodic() {
 		try {
-
-			if (RobotShoot.gameTime.get() == 0) {
-				RobotShoot.gameTime.start();
-			}
 			RobotTeleop.teleop();
 
 			updateSystems();
