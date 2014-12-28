@@ -193,7 +193,7 @@ public abstract class RobotShoot {
 	// needs to be called before reshooting
 	public static void shoot() {
 		//// CHANGED: ADDED IN TO MAKE SURE WE DONT FIRE IN STAGES 2,3,4,5
-		if ((RobotPickup.isPickupInShootPosition() || RobotPickup.isPickupInTrussPosition()) && !(stage >= 2 && stage <= 5)) {
+		if (RobotPickup.pickupCanShoot() && !(stage >= 2 && stage <= 5)) {
 			SmartDashboard.putBoolean("Truss: ", RobotPickup.isPickupInTrussPosition());
 			if (stage != 1) {
 				returnStage = stage;
@@ -240,7 +240,7 @@ public abstract class RobotShoot {
 
 		SmartDashboard.putNumber("latch", latch ? 1 + MathUtils.rand(1) / 1000 : 0 + MathUtils.rand(1) / 1000);
 		SmartDashboard.putNumber("stage SHOOTER", stage + MathUtils.rand(1) / 1000);
-		
+
 
 		if (stage != 1) {
 			returnStage = stage;
