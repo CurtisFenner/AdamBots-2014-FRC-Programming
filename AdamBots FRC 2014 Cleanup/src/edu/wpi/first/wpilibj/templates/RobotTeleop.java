@@ -5,6 +5,7 @@
  */
 package edu.wpi.first.wpilibj.templates;
 
+import auxiliary.MathUtils;
 import frcclasses.Gamepad;
 import subsystems.RobotShoot;
 import subsystems.RobotDrive;
@@ -42,14 +43,14 @@ public abstract class RobotTeleop {
 		double leftDrive = forwardRate - turnRate;
 		double rightDrive = forwardRate + turnRate;
 
-		leftDrive = Math.max(-1.0, Math.min(1.0, leftDrive));
-		rightDrive = Math.max(-1.0, Math.min(1.0, rightDrive));
+		leftDrive = MathUtils.capValueMinMax(leftDrive, -1, 1);
+		rightDrive = MathUtils.capValueMinMax(rightDrive, -1, 1);
 
 		double leftPWM = RobotDrive.pwmFromTPS(leftDrive * 900);
 		double rightPWM = RobotDrive.pwmFromTPS(rightDrive * 900);
 
-		leftPWM = Math.max(-1.0, Math.min(1.0, leftPWM));
-		rightPWM = Math.max(-1.0, Math.min(1.0, rightPWM));
+		leftPWM = MathUtils.capValueMinMax(leftPWM, -1, 1);
+		rightPWM = MathUtils.capValueMinMax(rightPWM, -1, 1);
 		RobotDrive.drive(leftPWM, rightPWM);
 	}
 
