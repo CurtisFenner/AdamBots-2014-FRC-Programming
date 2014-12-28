@@ -39,8 +39,6 @@ public abstract class RobotShoot {
 	private static boolean latch;
 	private static int stage;
 	private static int returnStage = 0;
-	public static double voltage;
-	public static double current;
 	// unwindes the shooter until it hits the back limit switch or reaches max revolutions
 	//and returns the limit value
 	public static boolean zeroedBefore = false;
