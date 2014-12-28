@@ -16,6 +16,7 @@ import subsystems.RobotVision;
  * @author Nathan
  */
 public abstract class RobotTeleop {
+
 	private static int pickupPosition = 1;
 	private static boolean pickupPositionDebounce = false;
 	private static boolean shootDebounce = false;
@@ -24,7 +25,7 @@ public abstract class RobotTeleop {
 	private static boolean previousShooterRight = false;
 	private static boolean targetInManualMode = true;
 	private static boolean shooterInManualMode = false;
-	
+
 	public static boolean isTargetManual() {
 		return targetInManualMode;
 	}
@@ -44,12 +45,9 @@ public abstract class RobotTeleop {
 		leftPWM = Math.max(-1.0, Math.min(1.0, leftPWM));
 		rightPWM = Math.max(-1.0, Math.min(1.0, rightPWM));
 		RobotDrive.drive(leftPWM, rightPWM);
-
 	}
 
-	public static void teleop() {
-
-		//SmartDashboard.putBoolean("shooter AUTO ENCODER", ControlBox.getTopSwitch(3));
+	public static void updateShooterTarget() {
 		if (!targetInManualMode) {
 			//Automatic targetting Mode (Using camera to figure out encoder)
 			RobotShoot.setTargetTicks(RobotVision.getEncoder());
@@ -81,16 +79,11 @@ public abstract class RobotTeleop {
 				previousShooterRight = false;
 			}
 		}
+	}
 
-		ControlBox.update();
-		RobotDrive.update();
-		RobotPickup.update();
-		RobotShoot.update();
-
+	public static void teleop() {
 		RobotPickup.moveToShootPosition();
-
 		///////////////
-
 		if (Gamepad.primary.getB()) {
 			RobotDrive.shiftHigh();
 		} else if (Gamepad.primary.getA()) {

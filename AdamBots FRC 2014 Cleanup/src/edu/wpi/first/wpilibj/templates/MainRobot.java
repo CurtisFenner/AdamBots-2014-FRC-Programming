@@ -115,14 +115,12 @@ public class MainRobot extends IterativeRobot {
 			if (RobotShoot.gameTime.get() == 0) {
 				RobotShoot.gameTime.start();
 			}
-
-
-
 			RobotTeleop.teleop();
-
-
+			ControlBox.update();
+			RobotDrive.update();
+			RobotPickup.update();
+			RobotShoot.update();
 			runCompressor();
-
 			DashboardPut.put();
 		} catch (Exception e) {
 			handleException(e, "teleopPeriodic");
