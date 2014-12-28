@@ -29,10 +29,9 @@ public abstract class RobotShoot {
 	public static final double QUICK_SHOOT_REVS = .8 * MAX_REVS;
 	public static final double BACKWARDS_REV = -(MAX_REVS + 500.0);
 	public static final double TENSION_TOLERANCE = 15;
-	//private static double tensionTargetTicks = 1200;							// Practice robot
-	private static double tensionTargetTicks = 1075;								// WONT CHANGE AUTON VALUE, GO TO THE AUTON CLASS
+	//private static double tensionTargetTicks = 1200; // Practice robot
+	private static double tensionTargetTicks = 1075; // WONT CHANGE AUTON VALUE, GO TO THE AUTON CLASS
 	private static double givenTensionTargetTicks = 1165;
-	private static int tensionTargetDirection = -1;
 	private static Timer timer;
 	public static Timer gameTime;
 	private static double updatedSpeed;
