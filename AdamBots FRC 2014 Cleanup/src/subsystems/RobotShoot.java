@@ -299,6 +299,11 @@ public abstract class RobotShoot {
 	 }*/
 	//// UPDATE METHODS --------------------------------------------------------
 	public static void update() {
+		if (inManualMode) {
+			manualShoot();
+		} else {
+			automatedShoot();
+		}
 
 		if (getEncoder() <= BACKWARDS_REV && updatedSpeed <= 0) {
 			updatedSpeed = 0;
@@ -317,13 +322,6 @@ public abstract class RobotShoot {
 
 		// sets motor
 		RobotActuators.shooterWinch.set(updatedSpeed);
-
-		// prints to smart dashboard
-		if (inManualMode) {
-			manualShoot();
-		} else {
-			automatedShoot();
-		}
 	}
 
 	public static double getCurrentSpeed() {
@@ -333,8 +331,8 @@ public abstract class RobotShoot {
 	public static double getEncoder() {
 		return RobotSensors.shooterWinchEncoder.get();
 	}
+
 	public static void resetEncoder() {
 		RobotSensors.shooterWinchEncoder.reset();
 	}
-
 }
