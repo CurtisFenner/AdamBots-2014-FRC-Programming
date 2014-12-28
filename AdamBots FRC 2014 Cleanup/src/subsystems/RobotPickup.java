@@ -142,7 +142,7 @@ public abstract class RobotPickup {
 
 		double mechSpeed = 0.0;
 		double targetAngleDifference = armTargetAngle - getArmAngleAboveHorizontal();
-		double targetSpeed = Math.min(1.0, Math.max(-0.75, targetAngleDifference / 15)) * 0.3;
+		double targetSpeed = MathUtils.capValueMinMax(targetAngleDifference * 0.02, -0.225, 0.3);
 
 		if (Math.abs(targetAngleDifference) < 3.5 + (armTargetAngle < 0 ? 3 : 0)) {
 			targetSpeed = 0;
