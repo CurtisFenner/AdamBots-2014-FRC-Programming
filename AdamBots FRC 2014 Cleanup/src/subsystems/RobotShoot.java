@@ -18,7 +18,7 @@ import edu.wpi.first.wpilibj.templates.RobotSensors;
  *
  * @author Tyler
  */
-public class RobotShoot {
+public abstract class RobotShoot {
 	////VARIABLES---------------------------------------------------------------
 
 	//// ADDED: SWITCHED THE SIGNS ON THE WIND AND UNWIND SPEED

@@ -1,7 +1,6 @@
 package subsystems;
 
 import edu.wpi.first.wpilibj.Timer;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.templates.RobotActuators;
 import edu.wpi.first.wpilibj.templates.RobotSensors;
 
@@ -9,14 +8,14 @@ import edu.wpi.first.wpilibj.templates.RobotSensors;
  *
  * @author Nathan
  */
-public class RobotPickup {
+public abstract class RobotPickup {
 
 	private static final double ANGLE_TOLERANCE = 10;                            //// TODO: CHANGE BACK TO 3
 	private static final double PICKUP_POSITION = -18;
 	//private static final double SHOOT_POSITION = 45.0;						// Practice robot
 	//private static final double SHOOT_POSITION = 48.0;						// Practice robot // Changed to bring angle up a few degrees.  Actually targeting 45
 	//private static final double TRUSS_POSITION = 55.0;
-	private static final double SHOOT_POSITION = 37.0;    //shoot position now 36 as of wednesday before kettering	
+	private static final double SHOOT_POSITION = 37.0;    //shoot position now 36 as of wednesday before kettering
         // competition robot // targeting 5 degrees less than the practice one
 	private static final double TRUSS_POSITION = 50.0;							// competition robot // targeting 5 degrees less than the practice one
 	private static final double CATCH_POSITION = 90;

@@ -6,7 +6,6 @@
 package subsystems;
 
 import edu.wpi.first.wpilibj.*;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import auxiliary.MathUtils;
 import edu.wpi.first.wpilibj.templates.RobotActuators;
 import edu.wpi.first.wpilibj.templates.RobotSensors;

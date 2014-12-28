@@ -14,7 +14,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  *
  * @author Blu
  */
-public class DashboardPut {
+public abstract class DashboardPut {
 
 	public static void put() {
 		//Shooter diagnostics:
@@ -27,7 +27,7 @@ public class DashboardPut {
 		//Pickup diagnostics:
 		SmartDashboard.putNumber("pickup ARM ANGLE", RobotPickup.getArmAngleAboveHorizontal());
 		SmartDashboard.putNumber("pickup ARM ANGLE TARGET", RobotPickup.getArmTargetAngle());
-		
+
 		SmartDashboard.putBoolean("pickup TRUSS POSITION", RobotPickup.isPickupInTrussPosition());
 		SmartDashboard.putBoolean("pickup ARM LIMIT UPPER", RobotPickup.isUpperLimitReached());
 		SmartDashboard.putBoolean("pickup ARM LIMIT LOWER", RobotPickup.isLowerLimitReached());

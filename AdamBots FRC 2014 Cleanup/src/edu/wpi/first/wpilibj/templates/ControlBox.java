@@ -12,7 +12,7 @@ import edu.wpi.first.wpilibj.DriverStationEnhancedIO;
  *
  * @author Nathan
  */
-public class ControlBox {
+public abstract class ControlBox {
 	/*
 	 .	#9	#8	#7
 
@@ -42,20 +42,20 @@ public class ControlBox {
 	public static boolean getDigitalIn(int channel) {
 		return driverStation.getDigitalIn(channel);
 		/*
-		try {
-			int lookAt = -1 - (int) enhancedStation.getDigitals();
-			int pow = 1;
-			for (int j = 0; j < channel; j++) {
-				pow *= 2;
-			}
-			lookAt = lookAt % pow;
-			lookAt /= (pow / 2);
-			SmartDashboard.putNumber("Digitals", -1 - (int) enhancedStation.getDigitals());
-			return lookAt <= 0;
-		} catch (Exception e) {
-			System.out.println(e);
-		}
-		return false;*/
+		 try {
+		 int lookAt = -1 - (int) enhancedStation.getDigitals();
+		 int pow = 1;
+		 for (int j = 0; j < channel; j++) {
+		 pow *= 2;
+		 }
+		 lookAt = lookAt % pow;
+		 lookAt /= (pow / 2);
+		 SmartDashboard.putNumber("Digitals", -1 - (int) enhancedStation.getDigitals());
+		 return lookAt <= 0;
+		 } catch (Exception e) {
+		 System.out.println(e);
+		 }
+		 return false;*/
 	}
 
 	public static double getAnalogIn(int channel) {

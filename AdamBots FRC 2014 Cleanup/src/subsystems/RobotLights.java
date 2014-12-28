@@ -6,14 +6,13 @@
 package subsystems;
 
 import edu.wpi.first.wpilibj.DigitalInput;
-import edu.wpi.first.wpilibj.Relay;
 import edu.wpi.first.wpilibj.templates.RobotActuators;
 
 /**
  *
  * @author Tyler
  */
-public class RobotLights {
+public abstract class RobotLights {
 
 ////VARIABLES-------------------------------------------------------------------
     private DigitalInput liar;

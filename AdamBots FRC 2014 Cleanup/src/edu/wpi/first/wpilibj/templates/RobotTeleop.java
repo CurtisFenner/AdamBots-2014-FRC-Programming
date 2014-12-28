@@ -9,13 +9,12 @@ import frcclasses.Gamepad;
 import subsystems.RobotShoot;
 import subsystems.RobotDrive;
 import subsystems.RobotPickup;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  *
  * @author Nathan
  */
-public class RobotTeleop {
+public abstract class RobotTeleop {
 
 	static double fine_speed = 0.0;
 	private static int pickupPosition = 1;

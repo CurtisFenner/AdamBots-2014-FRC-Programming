@@ -219,14 +219,14 @@ public class MainRobot extends IterativeRobot {
 		if (counterOnTest >= 51) {
 			RobotActuators.shooterWinch.set(0.0);
 		}
-		
+
 		// CHANGED: from RobotDrive.stopDrive();
 		RobotActuators.leftDrive.set(0.0);
 		RobotActuators.rightDrive.set(0.0);
-		
+
 		System.out.println("counterOnTest: " + counterOnTest);
 	}
-	
+
 	public void testInit() {
 		counterOnTest = 0;
 	}

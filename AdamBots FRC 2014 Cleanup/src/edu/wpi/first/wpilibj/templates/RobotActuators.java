@@ -6,13 +6,12 @@
 package edu.wpi.first.wpilibj.templates;
 
 import edu.wpi.first.wpilibj.*;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  *
  * @author Tyler
  */
-public class RobotActuators {
+public abstract class RobotActuators {
 
 	public static Victor leftDrive;
 	public static Victor rightDrive;

@@ -5,7 +5,6 @@
 package subsystems;
 
 import edu.wpi.first.wpilibj.Timer;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.templates.ControlBox;
 import java.io.InputStream;
 import javax.microedition.io.Connector;
@@ -15,7 +14,7 @@ import javax.microedition.io.SocketConnection;
  *
  * @author Curtis Fenner
  */
-public class RobotVision {
+public abstract class RobotVision {
 
 	private static Timer timer = new Timer();
 	private static String database = "";
