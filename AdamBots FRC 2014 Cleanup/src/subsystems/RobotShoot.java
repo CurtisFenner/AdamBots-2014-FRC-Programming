@@ -94,7 +94,7 @@ public abstract class RobotShoot {
 	}
 
 	public static boolean isReadyToShoot() {
-		return stage == 6 && Math.abs(getEncoder() - tensionTargetTicks) < TENSION_TOLERANCE * 1.5;
+		return stage == 6 && MathUtils.inRange(getEncoder(), tensionTargetTicks, TENSION_TOLERANCE * 1.5);
 	}
 
 	//// STAGES ----------------------------------------------------------------
