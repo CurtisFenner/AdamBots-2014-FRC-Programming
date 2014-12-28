@@ -147,7 +147,6 @@ public abstract class RobotTeleop {
 			shootDebounce = false;
 		}
 
-
 		////////////////////////
 
 		if (shooterInManualMode) {
