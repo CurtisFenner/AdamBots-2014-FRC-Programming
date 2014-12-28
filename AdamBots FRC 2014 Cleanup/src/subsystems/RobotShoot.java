@@ -300,9 +300,11 @@ public abstract class RobotShoot {
 	//// UPDATE METHODS --------------------------------------------------------
 	public static void update() {
 
-		// checks to see if the encoder should be zeroed
-		if ((getEncoder() <= BACKWARDS_REV && updatedSpeed <= 0.0) || (getEncoder() >= MAX_REVS && updatedSpeed >= 0.0)) {
-			updatedSpeed = 0.0;
+		if (getEncoder() <= BACKWARDS_REV && updatedSpeed <= 0) {
+			updatedSpeed = 0;
+		}
+		if (getEncoder() >= MAX_REVS && updatedSpeed >= 0) {
+			updatedSpeed = 0;
 		}
 
 
