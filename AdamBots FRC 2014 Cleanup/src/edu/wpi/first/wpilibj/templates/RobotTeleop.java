@@ -16,17 +16,39 @@ import subsystems.RobotVision;
  * @author Nathan
  */
 public abstract class RobotTeleop {
-
-	static double fine_speed = 0.0;
 	private static int pickupPosition = 1;
 	private static boolean pickupPositionDebounce = false;
 	private static boolean shootDebounce = false;
-	public static double DEBUG_OSCILLATE = 0.0;
+	private static double DEBUG_OSCILLATE = 0.0;
 	//
-	public static boolean previousShooterLeft = false;
-	public static boolean previousShooterRight = false;
-	public static boolean targetInManualMode = true;
-	public static boolean shooterInManualMode = false;
+	private static boolean previousShooterLeft = false;
+	private static boolean previousShooterRight = false;
+	private static boolean targetInManualMode = true;
+	private static boolean shooterInManualMode = false;
+	
+	public static boolean isTargetManual() {
+		return targetInManualMode;
+	}
+
+	private static void teleopDrive() {
+		double forwardRate = Gamepad.primary.getTriggers();
+		double turnRate = Gamepad.primary.getLeftX() * 1;
+		double leftDrive = forwardRate - turnRate;
+		double rightDrive = forwardRate + turnRate;
+
+		leftDrive = Math.max(-1.0, Math.min(1.0, leftDrive));
+		rightDrive = Math.max(-1.0, Math.min(1.0, rightDrive));
+
+		double leftPWM = RobotDrive.pwmFromTPS(leftDrive * 900);
+		double rightPWM = RobotDrive.pwmFromTPS(rightDrive * 900);
+
+		leftPWM = Math.max(-1.0, Math.min(1.0, leftPWM));
+		rightPWM = Math.max(-1.0, Math.min(1.0, rightPWM));
+		RobotDrive.drive(leftPWM, rightPWM);
+
+		DEBUG_OSCILLATE = (DEBUG_OSCILLATE + 0.001) % 1.0; // used for SmartDashboard control
+
+	}
 
 	public static void teleop() {
 
@@ -79,33 +101,12 @@ public abstract class RobotTeleop {
 		}
 
 		// Begin drive control
-
-		double forwardRate = Gamepad.primary.getTriggers();
-		double turnRate = Gamepad.primary.getLeftX() * 1;
-		double leftDrive = forwardRate - turnRate;
-		double rightDrive = forwardRate + turnRate;
-
-		leftDrive = Math.max(-1.0, Math.min(1.0, leftDrive));
-		rightDrive = Math.max(-1.0, Math.min(1.0, rightDrive));
-
-		double leftPWM = RobotDrive.pwmFromTPS(leftDrive * 900);
-		double rightPWM = RobotDrive.pwmFromTPS(rightDrive * 900);
-
-		leftPWM = Math.max(-1.0, Math.min(1.0, leftPWM));
-		rightPWM = Math.max(-1.0, Math.min(1.0, rightPWM));
-		RobotDrive.drive(leftPWM, rightPWM);
-
-		DEBUG_OSCILLATE = (DEBUG_OSCILLATE + 0.001) % 1.0; // used for SmartDashboard control
-
+		teleopDrive();
 		// End Drive Control
-
 		// Robot Pickup Control:
-
-		// both can control it, potentially fighting with each other
-		// care must be taken here
+		// Both primary & secondary control rollers, potentially conflicting
+		// resolved by summing (warn drivers)
 		RobotPickup.setRollerSpeed(Gamepad.primary.getRightY() + Gamepad.secondary.getLeftY());
-
-		//RobotPickup.adjustArmAngle(Gamepad.secondary.getTriggers());
 
 
 		if (Gamepad.secondary.getY()) {
@@ -115,8 +116,6 @@ public abstract class RobotTeleop {
 		} else {
 			RobotPickup.neutralRollerArm();
 		}
-
-		// added the false &&
 
 		if (Gamepad.secondary.getLB() || Gamepad.secondary.getRB()) {
 			if (!pickupPositionDebounce) {
@@ -161,7 +160,6 @@ public abstract class RobotTeleop {
 
 		////////////////////////
 
-		//SmartDashboard.putBoolean("TOP SWITCH TWO", ControlBox.getTopSwitch(2));
 		if (!shooterInManualMode) {
 			RobotShoot.useAutomatic();
 		} else {

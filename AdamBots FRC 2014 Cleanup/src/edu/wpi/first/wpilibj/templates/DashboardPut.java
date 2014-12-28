@@ -23,7 +23,7 @@ public abstract class DashboardPut {
 		SmartDashboard.putNumber("shooter EXPECT CURRENT", RobotShoot.getEncoder() * 0.01);
 		SmartDashboard.putNumber("shooter ENCODER", RobotShoot.getEncoder());
 		SmartDashboard.putBoolean("shooter MANUAL", RobotShoot.isManual());
-		SmartDashboard.putBoolean("shoter TARGET MANUAL", MainRobot.targetInManualMode);
+		SmartDashboard.putBoolean("shooter TARGET MANUAL", RobotTeleop.isTargetManual());
 		//Pickup diagnostics:
 		SmartDashboard.putNumber("pickup ARM ANGLE", RobotPickup.getArmAngleAboveHorizontal());
 		SmartDashboard.putNumber("pickup ARM ANGLE TARGET", RobotPickup.getArmTargetAngle());
