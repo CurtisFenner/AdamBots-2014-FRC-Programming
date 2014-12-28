@@ -5,12 +5,7 @@
  */
 package autons;
 
-import edu.wpi.first.wpilibj.Timer;
-import subsystems.RobotDrive;
-import subsystems.RobotPickup;
 import edu.wpi.first.wpilibj.templates.RobotSensors;
-import subsystems.RobotShoot;
-import subsystems.RobotVision;
 
 /**
  *
@@ -18,36 +13,22 @@ import subsystems.RobotVision;
  */
 public class RobotAuton {
 
-	//// VARIABLES -------------------------------------------------------------
-	//public static double averageDriveEncoder;
-	public static double distanceMultiplier;
-	public static final double DRIVE_TOLERANCE = 2;
-	public static final double DISTANCE_TO_TRUSS = 50;
-	public static final int SHOOTER_TOLERANCE = 2;
-	public static boolean movingBack;
-	public static boolean atPosition;
-	public static boolean shot;
-	public static boolean switch1;
-	public static boolean switch2;
-	public static boolean switch3;
-	public static int num;
-	public static Timer time;
+	private static boolean switchA = false, switchB = false, switchC = false;
 
-	// initiates everything
+	public boolean queryAutonomousConfiguration(boolean a, boolean b, boolean c) {
+		return switchA == a && switchB == b && switchC == c;
+	}
+
+	// Sets up autonomous
 	public static void initialize() {
-		//averageDriveEncoder = 0.0;
-		switch1 = RobotSensors.configSwitchA.getVoltage() >= 2.5;
-		switch2 = RobotSensors.configSwitchB.getVoltage() >= 2.5;
-		switch3 = RobotSensors.configSwitchC.getVoltage() >= 2.5;
-		time = null;
+		switchA = RobotSensors.configSwitchA.getVoltage() >= 2.5;
+		switchB = RobotSensors.configSwitchB.getVoltage() >= 2.5;
+		switchC = RobotSensors.configSwitchC.getVoltage() >= 2.5;
 		StandardOneBallAuton.initialize();
 	}
 
-	// update method
+	// Periodic updates
 	public static void update() {
-		// get values
-		//averageDriveEncoder = (RobotSensors.rightDriveEncoder.get() + RobotSensors.leftDriveEncoder.get()) / 2.0;
-		//StandardOneBallAuton.update();
 		AutonZero.update();
 	}
 }
