@@ -253,7 +253,7 @@ public abstract class RobotShoot {
 		stage = -99;
 		updatedSpeed = Gamepad.secondary.getRightY();
 
-		if (Math.abs(Gamepad.secondary.getTriggers()) > .8 && (RobotPickup.isPickupInShootPosition() || RobotPickup.isPickupInTrussPosition())) {
+		if (Math.abs(Gamepad.secondary.getTriggers()) > .8 && RobotPickup.pickupCanShoot()) {
 			releaseLatch();
 		} else {
 			latch();
