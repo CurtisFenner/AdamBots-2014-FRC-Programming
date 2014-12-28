@@ -88,7 +88,11 @@ public abstract class RobotTeleop {
 	}
 
 	public static void teleopPickup() {
+
+		// Sets roller speed (D1 right-Y) + (D2 left-Y)
 		RobotPickup.setRollerSpeed(Gamepad.primary.getRightY() + Gamepad.secondary.getLeftY());
+
+		// Opens or closes the roller arm (secondary Y for open, X for close)
 		if (Gamepad.secondary.getY()) {
 			RobotPickup.openRollerArm();
 		} else if (Gamepad.secondary.getX()) {
@@ -97,6 +101,9 @@ public abstract class RobotTeleop {
 			RobotPickup.neutralRollerArm();
 		}
 
+		// Raises or lowers the arm
+		// 'pickupPositionDebounce' makes it only happen once per press,
+		// rather than once per frame.
 		if (Gamepad.secondary.getLB() || Gamepad.secondary.getRB()) {
 			if (!pickupPositionDebounce) {
 				if (Gamepad.secondary.getLB()) {
@@ -105,7 +112,7 @@ public abstract class RobotTeleop {
 				if (Gamepad.secondary.getRB()) {
 					pickupPosition++;
 				}
-				pickupPosition = Math.max(0, Math.min(3, pickupPosition));
+				pickupPosition = MathUtils.capValueMinMax(pickupPosition, 0, 3);
 			}
 			pickupPositionDebounce = true;
 		} else {
