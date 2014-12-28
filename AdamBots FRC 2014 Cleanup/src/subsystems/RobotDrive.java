@@ -148,25 +148,12 @@ public abstract class RobotDrive {
 		RobotActuators.shifter.set(false);
 	}
 
-	// autoshifts gears
-	public static void autoShift(double sensitvity, boolean shiftLow /* in G's*/) {
-		double xAcceleration = RobotSensors.accelerometer.getAcceleration(ADXL345_I2C.Axes.kX);
-		double zAcceleration = RobotSensors.accelerometer.getAcceleration(ADXL345_I2C.Axes.kZ);
-		if (xAcceleration > sensitvity && zAcceleration > sensitvity) {
-			RobotActuators.shifter.set(false);
-		} else if (shiftLow == true || xAcceleration < sensitvity && zAcceleration
-				< sensitvity) {
-			RobotActuators.shifter.set(true);
-		} else {
-			RobotActuators.shifter.set(false);
-		}
-	}
-
 	public static void stopDrive() {
 		targetSpeedLeft = 0.0;
 		currentSpeedLeft = 0.0;
 		targetSpeedRight = 0.0;
 		currentSpeedRight = 0.0;
+		driveSetRaw(0,0);
 	}
 
 	public static void disableSmoothing() {
