@@ -160,9 +160,6 @@ public abstract class RobotPickup {
 			targetSpeed = 1;
 		}
 
-		//double targetSpeed = -Math.max(-30 / 2.5, Math.min(30 / 2.5, armTargetAngle - getArmAngleAboveHorizontal())) * 2.5 / 100.0;
-		//negative because down is positive and up is negative
-
 		double amt = -targetSpeed; // since up is negative
 
 		if (amt < 0 && (!isUpperLimitReached())) {
