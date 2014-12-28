@@ -131,7 +131,7 @@ public abstract class RobotShoot {
 		releaseLatch();
 		if (getAtBack() && timer.get() <= .05) {
 			if (timer.get() == 0) {
-				SmartDashboard.putNumber("back limit enc value: ", RobotSensors.shooterWinchEncoder.get());
+				SmartDashboard.putNumber("back limit enc value: ", getEncoder());
 				RobotSensors.shooterWinchEncoder.reset();
 				timer.start();
 			}
@@ -338,10 +338,4 @@ public abstract class RobotShoot {
 		return RobotSensors.shooterWinchEncoder.get();
 	}
 
-	////CURRENT CHECK CODE (ask Debjit)
-	public static double getCurrent() {
-		voltage = RobotSensors.currentSensor.getVoltage();
-		current = (voltage - 500) * 0.05 - 100;
-		return current;
-	}
 }
