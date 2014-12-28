@@ -19,7 +19,6 @@ public abstract class RobotTeleop {
 	private static int pickupPosition = 1;
 	private static boolean pickupPositionDebounce = false;
 	private static boolean shootDebounce = false;
-	private static double DEBUG_OSCILLATE = 0.0;
 	//
 	private static boolean previousShooterLeft = false;
 	private static boolean previousShooterRight = false;
@@ -45,8 +44,6 @@ public abstract class RobotTeleop {
 		leftPWM = Math.max(-1.0, Math.min(1.0, leftPWM));
 		rightPWM = Math.max(-1.0, Math.min(1.0, rightPWM));
 		RobotDrive.drive(leftPWM, rightPWM);
-
-		DEBUG_OSCILLATE = (DEBUG_OSCILLATE + 0.001) % 1.0; // used for SmartDashboard control
 
 	}
 
