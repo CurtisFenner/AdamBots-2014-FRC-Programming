@@ -29,7 +29,6 @@ public class MainRobot extends IterativeRobot {
 
 	public static String cumulativeErrorList = "";
 	public static String logData = "";
-	public static Timer timer;
 	public static int frames;
 
 	public static void handleException(Exception e, String from) {
@@ -95,8 +94,6 @@ public class MainRobot extends IterativeRobot {
 	public void teleopInit() {
 		RobotDrive.enableSmoothing();
 		RobotLights.underglowOn();
-		timer = new Timer();
-		timer.start();
 		frames = 0;
 	}
 
