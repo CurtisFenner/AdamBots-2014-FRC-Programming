@@ -17,21 +17,14 @@ import edu.wpi.first.wpilibj.templates.RobotSensors;
 public abstract class RobotDrive {
 
 	public static final double distancePerTick = 83.0 / 1109.0;
-	private static int encoderLastLeft = 0;
-	private static int encoderLastRight = 0;
-	private static double velocityLeft = 0;
-	private static double velocityRight = 0;
 	private static double targetSpeedLeft = 0.0;
 	private static double targetSpeedRight = 0.0;
 	private static double currentSpeedLeft = 0.0;
 	private static double currentSpeedRight = 0.0;
 	private static boolean smoothingEnabled = true;
-	private static Timer clock;
 
 ////INIT------------------------------------------------------------------------
 	public static void initialize() {
-		clock = new Timer();
-		clock.start();
 		System.out.println("RobotDrive init");
 		RobotSensors.rightDriveEncoder.start();
 		RobotSensors.leftDriveEncoder.start();
@@ -75,36 +68,9 @@ public abstract class RobotDrive {
 		double shift_left = (MathUtils.sign(targetSpeedLeft) == MathUtils.sign(targetSpeedLeft - currentSpeedLeft)) ? shift_up : shift_down;
 		double shift_right = (MathUtils.sign(targetSpeedRight) == MathUtils.sign(targetSpeedRight - currentSpeedRight)) ? shift_up : shift_down;
 
-		currentSpeedLeft += MathUtils.sign(targetSpeedLeft - currentSpeedLeft)
-				* Math.min(Math.abs(targetSpeedLeft - currentSpeedLeft), shift_left);
-		currentSpeedRight += MathUtils.sign(targetSpeedRight - currentSpeedRight)
-				* Math.min(Math.abs(targetSpeedRight - currentSpeedRight), shift_right);
+		currentSpeedLeft = MathUtils.toward(currentSpeedLeft, targetSpeedLeft, shift_left);
 
-		double dt = clock.get();
-		clock.reset();
-
-		int leftEncoder = RobotSensors.leftDriveEncoder.get();
-		int rightEncoder = -RobotSensors.rightDriveEncoder.get();
-
-		velocityLeft = (leftEncoder - encoderLastLeft) / dt;
-		velocityRight = (rightEncoder - encoderLastRight) / dt;
-
-		encoderLastLeft = leftEncoder;
-		encoderLastRight = rightEncoder;
-
-		//SmartDashboard.putNumber("Current Left", currentSpeedLeft + RobotTeleop.DEBUG_OSCILLATE / 800.0);
-		//SmartDashboard.putNumber("Measured Left", pwmFromTPS(velocityLeft) + RobotTeleop.DEBUG_OSCILLATE / 800.0);
-		//SmartDashboard.putNumber("Target Left", targetSpeedLeft + RobotTeleop.DEBUG_OSCILLATE / 800.0);
-
-		//SmartDashboard.putNumber("Current Right", currentSpeedRight + RobotTeleop.DEBUG_OSCILLATE / 800.0);
-		//SmartDashboard.putNumber("Measured Right", pwmFromTPS(velocityRight) + RobotTeleop.DEBUG_OSCILLATE / 800.0);
-		//SmartDashboard.putNumber("Target Right", targetSpeedRight + RobotTeleop.DEBUG_OSCILLATE / 800.0);
-		//SmartDashboard.putNumber("Drive Encoder Left", getEncoderLeftTicks());
-		//SmartDashboard.putNumber("Drive Encoder Right", getEncoderRightTicks());
-
-		//SmartDashboard.putNumber("Shift Up", shift_up * 10000);
-		//SmartDashboard.putNumber("Shift Down", shift_down * 10000);
-
+		currentSpeedRight = MathUtils.toward(currentSpeedRight, targetSpeedRight, shift_right);
 
 		// Use currentSpeed and velocity to set raw
 		if (smoothingEnabled) {

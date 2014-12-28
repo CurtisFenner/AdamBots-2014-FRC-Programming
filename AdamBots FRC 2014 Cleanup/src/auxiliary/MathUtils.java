@@ -63,6 +63,14 @@ public class MathUtils {
 		return Math.abs(x) < zoneRadius ? 0 : x;
 	}
 
+	public static double toward(double x,double target, double amount) {
+		if (Math.abs(x - target) <= amount) {
+			return target;
+		} else {
+			return x + sign( target - x ) * amount;
+		}
+	}
+
 	public static double sign(double n) {
 		return (n > 0.0) ? 1.0 : ((n < 0.0) ? -1.0 : 0.0);
 	}
