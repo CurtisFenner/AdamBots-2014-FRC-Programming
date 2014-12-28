@@ -75,8 +75,7 @@ public abstract class RobotShoot {
 
 	public static void startShoot() {
 		stage = 2;
-		zeroedBefore = false; // CHANGED: 4/4/14
-		//stage = 1;
+		zeroedBefore = false;
 	}
 
 	public static void useManual() {
