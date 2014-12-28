@@ -196,7 +196,6 @@ public abstract class RobotVision {
 			//System.out.println("Error Closing HTTP: " + e);
 		}
 		if (connectionFailure) {
-			double t = timer.get();
 			System.gc();
 			try {
 				Thread.sleep(30000);
