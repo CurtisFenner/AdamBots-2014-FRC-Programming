@@ -163,6 +163,7 @@ public abstract class RobotTeleop {
 		if (Gamepad.secondary.getStart()) {
 			shooterInManualMode = false;
 		}
+		// This gives `primary` priority over secondary.
 		if (Gamepad.primary.getBack()) {
 			targetInManualMode = true;
 		}

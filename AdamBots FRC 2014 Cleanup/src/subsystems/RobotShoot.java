@@ -305,7 +305,7 @@ public abstract class RobotShoot {
 			updatedSpeed = 0.0;
 		}
 
-		SmartDashboard.putBoolean("Shooter At back", getAtBack());
+		
 
 		if (!RobotSensors.shooterLoadedLim.get() && updatedSpeed >= 0) {
 			updatedSpeed = 0.0;
