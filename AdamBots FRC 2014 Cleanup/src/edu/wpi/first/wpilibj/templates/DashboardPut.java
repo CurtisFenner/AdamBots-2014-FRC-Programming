@@ -9,7 +9,6 @@ import subsystems.RobotPickup;
 import subsystems.RobotVision;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import static subsystems.RobotShoot.getAtBack;
 
 /**
  *
@@ -24,6 +23,7 @@ public abstract class DashboardPut {
 		SmartDashboard.putBoolean("shooter MANUAL", RobotShoot.isManual());
 		SmartDashboard.putBoolean("shooter TARGET MANUAL", RobotTeleop.isTargetManual());
 		SmartDashboard.putBoolean("shooter AT BACK", RobotShoot.getAtBack());
+		SmartDashboard.putNumber("shooter CURRENT SPEED", RobotShoot.getCurrentSpeed());
 		//Pickup diagnostics:
 		SmartDashboard.putNumber("pickup ARM ANGLE", RobotPickup.getArmAngleAboveHorizontal());
 		SmartDashboard.putNumber("pickup ARM ANGLE TARGET", RobotPickup.getArmTargetAngle());

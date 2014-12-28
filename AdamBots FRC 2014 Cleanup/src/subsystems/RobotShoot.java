@@ -305,7 +305,7 @@ public abstract class RobotShoot {
 			updatedSpeed = 0.0;
 		}
 
-		
+
 
 		if (!RobotSensors.shooterLoadedLim.get() && updatedSpeed >= 0) {
 			updatedSpeed = 0.0;
@@ -315,7 +315,6 @@ public abstract class RobotShoot {
 
 		// sets motor
 		RobotActuators.shooterWinch.set(updatedSpeed);
-		SmartDashboard.putNumber("Updated Speed Value", updatedSpeed);
 
 		// prints to smart dashboard
 		if (inManualMode) {
@@ -323,6 +322,10 @@ public abstract class RobotShoot {
 		} else {
 			automatedShoot();
 		}
+	}
+
+	public static double getCurrentSpeed() {
+		return updatedSpeed;
 	}
 
 	public static double getEncoder() {
