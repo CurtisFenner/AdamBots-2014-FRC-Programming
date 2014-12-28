@@ -4,6 +4,7 @@ package frcclasses;
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
+import auxiliary.MathUtils;
 import edu.wpi.first.wpilibj.Joystick;
 
 /**
@@ -14,6 +15,7 @@ public final class Gamepad {
 
 	private Joystick joy;
 	//// CONSTANTS -------------------------------------------------------------
+	private static final double DEADZONE_SIZE = 0.15;
 	/**
 	 * Primary Driver Controller Port Number.
 	 */
@@ -89,12 +91,9 @@ public final class Gamepad {
 		joy = new Joystick(port);
 	}
 
-	private double deaden(double u) {
-		return Math.abs(u) < .15 ? 0 : u;
-	}
 
 	public double getTriggers() {
-		return deaden(joy.getRawAxis(AXIS_TRIGGERS) * 2) / 2;
+		return MathUtils.deadzone(joy.getRawAxis(AXIS_TRIGGERS) * 2, DEADZONE_SIZE) / 2;
 	}
 
 	public boolean getDPadLeft() {
@@ -111,7 +110,7 @@ public final class Gamepad {
 	 * @return The X coordinate of the left joystick (-1 is LEFT, 1 is RIGHT)
 	 */
 	public double getLeftX() {
-		return deaden(joy.getRawAxis(AXIS_LEFT_X));
+		return MathUtils.deadzone(joy.getRawAxis(AXIS_LEFT_X), DEADZONE_SIZE);
 	}
 
 	/**
@@ -120,7 +119,7 @@ public final class Gamepad {
 	 * @return The Y coordinate of the LEFT joystick (-1 is UP, 1 is DOWN)
 	 */
 	public double getLeftY() {
-		return deaden(joy.getRawAxis(AXIS_LEFT_Y));
+		return MathUtils.deadzone(joy.getRawAxis(AXIS_LEFT_Y), DEADZONE_SIZE);
 	}
 
 	/**
@@ -129,7 +128,7 @@ public final class Gamepad {
 	 * @return The X coordinate of the RIGHT joystick (-1 is LEFT, 1 is RIGHT)
 	 */
 	public double getRightX() {
-		return deaden(joy.getRawAxis(AXIS_RIGHT_X));
+		return MathUtils.deadzone(joy.getRawAxis(AXIS_RIGHT_X), DEADZONE_SIZE);
 	}
 
 	/**
@@ -138,7 +137,7 @@ public final class Gamepad {
 	 * @return The Y coordinate of the RIGHT joystick (-1 is UP, 1 is DOWN)
 	 */
 	public double getRightY() {
-		return deaden(joy.getRawAxis(AXIS_RIGHT_Y));
+		return MathUtils.deadzone(joy.getRawAxis(AXIS_RIGHT_Y), DEADZONE_SIZE);
 	}
 
 	/**
