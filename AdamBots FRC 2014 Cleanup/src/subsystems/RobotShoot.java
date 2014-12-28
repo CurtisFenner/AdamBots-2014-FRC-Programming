@@ -186,7 +186,6 @@ public abstract class RobotShoot {
 			automatedUnwind();
 			if (Math.abs(getEncoder() - tensionTargetTicks) < TENSION_TOLERANCE * 3) {
 				updatedSpeed /= 5.0;
-				// updatedSpeed /= 4.0; // 1/4/14
 			}
 			return;
 		}
