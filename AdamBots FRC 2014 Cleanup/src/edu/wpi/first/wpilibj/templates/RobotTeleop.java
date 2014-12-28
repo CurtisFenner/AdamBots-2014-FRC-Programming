@@ -120,28 +120,7 @@ public abstract class RobotTeleop {
 		}
 	}
 
-	public static void teleop() {
-		updateShooterTensionTarget();
-		RobotPickup.moveToShootPosition();
-		///////////////
-		if (Gamepad.primary.getB()) {
-			RobotDrive.shiftHigh();
-		} else if (Gamepad.primary.getA()) {
-			RobotDrive.shiftLow();
-		}
-
-		// Begin drive control
-		teleopDrive();
-		// End Drive Control
-		// Robot Pickup Control:
-		// Both primary & secondary control rollers, potentially conflicting
-		// resolved by summing (warn drivers)
-
-		teleopPickup();
-
-
-
-
+	public static void teleopShoot() {
 		if (Math.abs(Gamepad.secondary.getTriggers()) > 0.9) {
 			if (!shootDebounce) {
 				System.out.println("Shoot!!!");
@@ -178,6 +157,21 @@ public abstract class RobotTeleop {
 		if (Gamepad.primary.getX() && Gamepad.primary.getY()) {
 			RobotShoot.zeroedBefore = false;
 		}
+	}
 
+	public static void teleop() {
+		updateShooterTensionTarget();
+		RobotPickup.moveToShootPosition();
+		///////////////
+		if (Gamepad.primary.getB()) {
+			RobotDrive.shiftHigh();
+		} else if (Gamepad.primary.getA()) {
+			RobotDrive.shiftLow();
+		}
+
+		// Begin drive control
+		teleopDrive();
+		teleopPickup();
+		teleopShoot();
 	}
 }
