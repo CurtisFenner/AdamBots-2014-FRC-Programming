@@ -46,10 +46,10 @@ public class StandardOneBallAuton {
 		if (timer.get() == 0) {
 			timer.start();
 			RobotShoot.startShoot();
+			RobotDrive.disableSmoothing();
+			RobotPickup.moveToShootPosition();
 			System.out.println("start at 0");
 		}
-
-		RobotDrive.disableSmoothing();
 
 		double forward = -1.0;
 
@@ -57,13 +57,11 @@ public class StandardOneBallAuton {
 			RobotDrive.driveStraight(forward);
 		} else {
 			RobotDrive.stopDrive();
+			if (RobotPickup.isPickupInShootPosition()) {
+				step = 3;
+			}
 		}
 
-		RobotPickup.moveToShootPosition();
-
-		if (RobotPickup.isPickupInShootPosition() && RobotDrive.getEncoderAverageTicks() >= STRAIGHT_DISTANCE) {
-			step = 3;
-		}
 	}
 
 	// init
@@ -75,9 +73,6 @@ public class StandardOneBallAuton {
 		RobotShoot.setTargetTicks(TENSION_VALUE);	// AUTON TARGET TICKS
 	}
 
-	// Moves forward while putting the arm down
-	public static void stepTwo() {
-	}
 
 	// shoots if the goal is hot or timer says so
 	public static void stepThree() {
@@ -121,9 +116,6 @@ public class StandardOneBallAuton {
 		switch (step) {
 			case 1:
 				stepOne();
-				break;
-			case 2:
-				stepTwo();
 				break;
 			case 3:
 				stepThree();
