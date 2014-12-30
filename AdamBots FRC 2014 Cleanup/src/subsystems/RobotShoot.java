@@ -31,7 +31,6 @@ public abstract class RobotShoot {
 	public static final double TENSION_TOLERANCE = 15;
 	//private static double tensionTargetTicks = 1200; // Practice robot
 	private static double tensionTargetTicks = 1075; // WONT CHANGE AUTON VALUE, GO TO THE AUTON CLASS
-	private static double givenTensionTargetTicks = 1165;
 	private static double currentSpeed;
 	private static boolean inManualMode = true;
 	private static boolean unlatched;
@@ -46,19 +45,17 @@ public abstract class RobotShoot {
 
 	public static void setTargetTicks(double newTargetTicks) {
 		newTargetTicks = MathUtils.capValueMinMax(tensionTargetTicks, 500, 1400);
-		givenTensionTargetTicks = newTargetTicks;
 		tensionTargetTicks = MathUtils.capValueMinMax(newTargetTicks, 500, 1400);
 		SmartDashboard.putNumber("shooter TICKS", newTargetTicks);
 		SmartDashboard.putNumber("shooter TARGET TICKS", tensionTargetTicks);
-		SmartDashboard.putNumber("shooter GIVEN TICKS", givenTensionTargetTicks);
 	}
 
 	public static void adjustTargetUp() {
-		setTargetTicks(givenTensionTargetTicks + 25);
+		setTargetTicks(tensionTargetTicks + 25);
 	}
 
 	public static void adjustTargetDown() {
-		setTargetTicks(givenTensionTargetTicks - 25);
+		setTargetTicks(tensionTargetTicks - 25);
 	}
 
 	//// INIT ------------------------------------------------------------------
