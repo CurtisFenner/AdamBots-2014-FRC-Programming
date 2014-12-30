@@ -36,7 +36,6 @@ public abstract class RobotShoot {
 	private static boolean unlatched;
 	private static int stage;
 	private static StopWatch stopWatch = new StopWatch();
-	private static StopWatch.Time stageStartTime = null;
 
 
 	// unwindes the shooter until it hits the back limit switch or reaches max revolutions
@@ -271,12 +270,13 @@ public abstract class RobotShoot {
 	}
 
 	public static void changeStage(int nextStage) {
-		stageStartTime = stopWatch.now();
+		stopWatch.markEvent();
+
 		stage = nextStage;
 	}
 
 	public static double deltaTime() {
-		return stopWatch.deltaSeconds(stageStartTime);
+		return stopWatch.deltaSeconds();
 	}
 
 	public static boolean isMovingBackward() {

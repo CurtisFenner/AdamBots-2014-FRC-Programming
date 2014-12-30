@@ -11,20 +11,15 @@ import edu.wpi.first.wpilibj.Timer;
  * @author Nathan
  */
 public final class StopWatch {
-	public class Time {
-		private final double time;
-		public Time(double time) {
-			this.time = time;
-		}
-	}
 	private final Timer timer = new Timer();
+	private double markTime = 0;
 	public StopWatch() {
 		timer.start();
 	}
-	public Time now() {
-		return new Time(timer.get());
+	public void markEvent() {
+		markTime = timer.get();
 	}
-	public double deltaSeconds(Time time) {
-		return timer.get() - time.time;
+	public double deltaSeconds() {
+		return timer.get() - markTime;
 	}
 }
