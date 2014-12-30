@@ -250,16 +250,16 @@ public abstract class RobotShoot {
 			automatedShootUpdate();
 		}
 
-		if (getEncoder() <= BACKWARDS_REV && movingBackward()) {
+		if (getEncoder() <= BACKWARDS_REV && isMovingBackward()) {
 			stopSpeed();
 		}
-		if (getEncoder() >= MAX_REVS && movingForward()) {
+		if (getEncoder() >= MAX_REVS && isMovingForward()) {
 			stopSpeed();
 		}
 
 
 
-		if (!RobotSensors.shooterLoadedLim.get() && movingForward()) {
+		if (!RobotSensors.shooterLoadedLim.get() && isMovingForward()) {
 			stopSpeed();
 		}
 		// sets pnuematics
@@ -282,11 +282,11 @@ public abstract class RobotShoot {
 		return stopWatch.deltaSeconds(stageStartTime);
 	}
 
-	public static boolean movingBackward() {
+	public static boolean isMovingBackward() {
 		return getCurrentSpeed() <= 0;
 	}
 
-	public static boolean movingForward() {
+	public static boolean isMovingForward() {
 		return getCurrentSpeed() >= 0;
 	}
 
