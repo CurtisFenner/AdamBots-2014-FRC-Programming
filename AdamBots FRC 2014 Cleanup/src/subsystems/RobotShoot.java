@@ -91,7 +91,7 @@ public abstract class RobotShoot {
 	public static void stage30PauseAfterFiring() {
 		// stage 30
 		releaseLatch();
-		if (deltaTime() >= WAIT_TIME) {
+		if (stageTime() >= WAIT_TIME) {
 			changeStage(40);
 		}
 	}
@@ -102,7 +102,7 @@ public abstract class RobotShoot {
 		automatedUnwind();
 		if (getAtBack()) {
 			changeStage(45);
-		} else if (deltaTime() >= 3) {
+		} else if (stageTime() >= 3) {
 			changeStage(50);
 		}
 	}
@@ -112,7 +112,7 @@ public abstract class RobotShoot {
 		// for when the back isn't encountered (due to electrical or mechanical failure)
 		releaseLatch();
 		automatedUnwind();
-		if (deltaTime() >= 0.5 || getEncoder() < -200) {
+		if (stageTime() >= 0.5 || getEncoder() < -200) {
 			stopSpeed();
 			changeStage(50);
 		}
@@ -121,7 +121,7 @@ public abstract class RobotShoot {
 	public static void stage50LatchShooterAtBack() {
 		closeLatch();
 		stopSpeed();
-		if (deltaTime() >= 0.5) {
+		if (stageTime() >= 0.5) {
 			changeStage(60);
 		}
 	}
@@ -275,7 +275,7 @@ public abstract class RobotShoot {
 		stage = nextStage;
 	}
 
-	public static double deltaTime() {
+	public static double stageTime() {
 		return stopWatch.deltaSeconds();
 	}
 
