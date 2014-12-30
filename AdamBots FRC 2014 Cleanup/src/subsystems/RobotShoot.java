@@ -146,7 +146,7 @@ public abstract class RobotShoot {
 
 
 	public static void reset() {
-		resetEncoder();
+		RobotSensors.shooterWinchEncoder.reset();
 	}
 
 	// reshoot method
@@ -300,9 +300,5 @@ public abstract class RobotShoot {
 
 	public static double getEncoder() {
 		return RobotSensors.shooterWinchEncoder.get();
-	}
-
-	public static void resetEncoder() {
-		RobotSensors.shooterWinchEncoder.reset();
 	}
 }
