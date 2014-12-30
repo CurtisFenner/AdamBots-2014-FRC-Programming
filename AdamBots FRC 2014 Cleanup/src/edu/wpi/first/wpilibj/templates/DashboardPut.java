@@ -21,7 +21,7 @@ public abstract class DashboardPut {
 		//Shooter diagnostics:
 		SmartDashboard.putNumber("shooter EXPECT CURRENT", RobotShoot.getEncoder() * 0.01);
 		SmartDashboard.putNumber("shooter ENCODER", RobotShoot.getEncoder());
-		SmartDashboard.putBoolean("shooter MANUAL", RobotShoot.isManual());
+		SmartDashboard.putBoolean("shooter MANUAL", RobotShoot.isInManualMode());
 		SmartDashboard.putBoolean("shooter TARGET MANUAL", RobotTeleop.isTargetManual());
 		SmartDashboard.putBoolean("shooter AT BACK", RobotShoot.getAtBack());
 		SmartDashboard.putNumber("shooter CURRENT SPEED", RobotShoot.getCurrentSpeed());

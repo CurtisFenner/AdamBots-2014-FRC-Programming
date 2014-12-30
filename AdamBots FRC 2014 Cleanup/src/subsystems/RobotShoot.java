@@ -82,7 +82,7 @@ public abstract class RobotShoot {
 		inManualMode = false;
 	}
 
-	public static boolean isManual() {
+	public static boolean isInManualMode() {
 		return inManualMode;
 	}
 
@@ -162,7 +162,7 @@ public abstract class RobotShoot {
 	}
 
 	// Automated shoot
-	public static void automatedShoot() {
+	public static void automatedShootUpdate() {
 
 		// shoots
 		switch (getStage()) {
@@ -190,7 +190,7 @@ public abstract class RobotShoot {
 	}
 
 	// used for calibration
-	public static void manualShoot() {
+	public static void manualShootUpdate() {
 		changeStage(-99);
 		setSpeed(Gamepad.secondary.getRightY());
 
@@ -244,10 +244,10 @@ public abstract class RobotShoot {
 	 }*/
 	//// UPDATE METHODS --------------------------------------------------------
 	public static void update() {
-		if (inManualMode) {
-			manualShoot();
+		if (isInManualMode()) {
+			manualShootUpdate();
 		} else {
-			automatedShoot();
+			automatedShootUpdate();
 		}
 
 		if (getEncoder() <= BACKWARDS_REV && movingBackward()) {
