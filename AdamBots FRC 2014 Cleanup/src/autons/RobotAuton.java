@@ -31,6 +31,6 @@ public class RobotAuton {
 
 	// Periodic updates
 	public static void update() {
-		AutonZero.update();
+		StandardOneBallAuton.update();
 	}
 }

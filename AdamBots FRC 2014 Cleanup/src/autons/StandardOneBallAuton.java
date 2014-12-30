@@ -11,14 +11,55 @@ import subsystems.RobotPickup;
 import subsystems.RobotVision;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj.templates.RobotSensors;
 
 /**
  *
  * @author Tyler
  */
-public class StandardOneBallAuton extends AutonZero {
-	//// VARIABLES -------------------------------------------------------------
+public class StandardOneBallAuton {
 
+	public static final double STRAIGHT_DISTANCE = 450; // needs to be found in testing
+	public static final double BACKWARDS_DISTANCE = 0; // needs to be found in testing
+	public static double averageDriveEncoder;
+	public static Timer timer;
+	public static double fallTimer = 2.0;
+	public static double closeTime = 2.0;
+	public static int step;
+
+	// reset all Encoders
+	public static void reset() {
+		RobotSensors.leftDriveEncoder.reset();
+		RobotSensors.rightDriveEncoder.reset();
+		//RobotSensors.shooterWinchEncoder.reset();
+		timer.stop();
+		timer.reset();
+	}
+
+	public static void stepOne() {
+		if (timer.get() == 0) {
+			timer.start();
+			RobotShoot.startShoot();
+			System.out.println("start at 0");
+		}
+
+		RobotDrive.disableSmoothing();
+
+		double forward = -1.0;
+
+		if (averageDriveEncoder <= STRAIGHT_DISTANCE) {
+			RobotDrive.drive(forward, forward);
+		} else {
+			RobotDrive.stopDrive();
+		}
+
+		RobotPickup.moveToShootPosition();
+
+		if (RobotPickup.isPickupInShootPosition() && averageDriveEncoder >= STRAIGHT_DISTANCE) {
+			step = 3;
+		}
+	}
+	//// VARIABLES -------------------------------------------------------------
 	public static final double speed = 0.5;
 	public static double startMovingBack;
 	public static final int TENSION_VALUE = 1090; //downloaded to robot for Q26
@@ -28,8 +69,8 @@ public class StandardOneBallAuton extends AutonZero {
 
 	// init
 	public static void initialize() {
-		AutonZero.initialize();
-		AutonZero.reset();
+		timer = new Timer();
+		step = 1;
 		startMovingBack = 0.0;
 		secondTimer = new Timer();
 		RobotShoot.setTargetTicks(TENSION_VALUE);	// AUTON TARGET TICKS
@@ -76,6 +117,8 @@ public class StandardOneBallAuton extends AutonZero {
 
 	// update method
 	public static void update() {
+		averageDriveEncoder = RobotDrive.getEncoderRightTicks();
+		SmartDashboard.putBoolean("Pickup in shoot", RobotPickup.isPickupInShootPosition());
 		SmartDashboard.putBoolean("vision IS HOT", RobotVision.isHot());
 		switch (step) {
 			case 1:

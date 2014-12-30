@@ -6,9 +6,8 @@
 /*----------------------------------------------------------------------------*/
 package edu.wpi.first.wpilibj.templates;
 
-import autons.StandardOneBallAuton;
-import autons.AutonZero;
 import autons.RobotAuton;
+import autons.StandardOneBallAuton;
 import auxiliary.FileWrite;
 import subsystems.RobotShoot;
 import subsystems.RobotLights;
@@ -166,7 +165,7 @@ public class MainRobot extends IterativeRobot {
 		try {
 			RobotDrive.stopDrive();
 			RobotShoot.stopSpeed();
-			AutonZero.reset();
+			StandardOneBallAuton.reset();
 			DashboardPut.put();
 			if (logData.length() != 0) {
 				FileWrite.writeFile("log" + Calendar.HOUR + "_" + Calendar.MINUTE + ".txt", logData);
