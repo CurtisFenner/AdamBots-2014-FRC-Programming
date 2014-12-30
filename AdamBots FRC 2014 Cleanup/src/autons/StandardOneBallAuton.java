@@ -106,7 +106,7 @@ public class StandardOneBallAuton {
 
 	// moves back to the white line
 	public static void stepFive() {
-		if (averageDriveEncoder >= BACKWARDS_DISTANCE) {
+		if (RobotDrive.getEncoderAverageTicks() >= BACKWARDS_DISTANCE) {
 			double forward = 1.0;
 			RobotDrive.drive(forward, forward);
 		} else {
@@ -117,7 +117,6 @@ public class StandardOneBallAuton {
 
 	// update method
 	public static void update() {
-		averageDriveEncoder = RobotDrive.getEncoderRightTicks();
 		SmartDashboard.putBoolean("Pickup in shoot", RobotPickup.isPickupInShootPosition());
 		SmartDashboard.putBoolean("vision IS HOT", RobotVision.isHot());
 		switch (step) {

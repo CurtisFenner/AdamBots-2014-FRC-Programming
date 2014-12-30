@@ -42,7 +42,7 @@ public abstract class RobotDrive {
 	 * @return
 	 */
 	public static double getEncoderLeftInches() {
-		return RobotSensors.leftDriveEncoder.get() * distancePerTick;
+		return getEncoderLeftTicks() * distancePerTick;
 	}
 
 	public static int getEncoderLeftTicks() {
@@ -55,11 +55,19 @@ public abstract class RobotDrive {
 	 * @return
 	 */
 	public static double getEncoderRightInches() {
-		return RobotSensors.rightDriveEncoder.get() * distancePerTick;
+		return getEncoderRightTicks() * distancePerTick;
 	}
 
 	public static int getEncoderRightTicks() {
 		return RobotSensors.rightDriveEncoder.get();
+	}
+
+	public static double getEncoderAverageInches() {
+		return getEncoderAverageTicks() * distancePerTick;
+	}
+
+	public static int getEncoderAverageTicks() {
+		return getEncoderRightTicks(); // the left is broken on the competition robot
 	}
 
 	public static void update() {
