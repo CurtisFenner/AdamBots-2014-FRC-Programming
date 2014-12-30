@@ -45,7 +45,7 @@ public abstract class RobotShoot {
 	public static boolean zeroedBefore = false;
 
 	public static void setTargetTicks(double ticks) {
-		ticks = Math.max(500, Math.min(1400, ticks));
+		ticks = MathUtils.capValueMinMax(tensionTargetTicks, 500, 1400);
 		givenTensionTargetTicks = ticks;
 		tensionTargetTicks = ticks;
 		tensionTargetTicks = MathUtils.capValueMinMax(tensionTargetTicks, 500, 1400);
