@@ -16,9 +16,9 @@ public abstract class RobotSensors {
 
 ////VARIABLES-------------------------------------------------------------------
 	public static AnalogChannel currentSensor;
-	public static AnalogChannel configSwitchA;
-	public static AnalogChannel configSwitchB;
-	public static AnalogChannel configSwitchC;
+	public static AnalogSwitch configSwitchA;
+	public static AnalogSwitch configSwitchB;
+	public static AnalogSwitch configSwitchC;
 	public static Encoder rightDriveEncoder;
 	public static Encoder leftDriveEncoder;
 	public static AnalogPotentiometer pickupPotentiometer;
@@ -34,9 +34,9 @@ public abstract class RobotSensors {
 	public static void initialize() {
 		//// Analog
 		currentSensor = new AnalogChannel(1);
-		configSwitchA = new AnalogChannel(3);
-		configSwitchB = new AnalogChannel(4);
-		configSwitchC = new AnalogChannel(5);
+		configSwitchA = new AnalogSwitch(new AnalogChannel(3));
+		configSwitchB = new AnalogSwitch(new AnalogChannel(4));
+		configSwitchC = new AnalogSwitch(new AnalogChannel(5));
 		pickupPotentiometer = new AnalogPotentiometer(2);
 		shooterLoadedLim = new AnalogSwitch(new AnalogChannel(6));
 

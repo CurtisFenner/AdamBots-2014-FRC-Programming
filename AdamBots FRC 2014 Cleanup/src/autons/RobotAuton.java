@@ -23,9 +23,9 @@ public class RobotAuton {
 
 	// Sets up autonomous
 	public static void initialize() {
-		switchA = RobotSensors.configSwitchA.getVoltage() >= 2.5;
-		switchB = RobotSensors.configSwitchB.getVoltage() >= 2.5;
-		switchC = RobotSensors.configSwitchC.getVoltage() >= 2.5;
+		switchA = RobotSensors.configSwitchA.get();
+		switchB = RobotSensors.configSwitchB.get();
+		switchC = RobotSensors.configSwitchC.get();
 		StandardOneBallAuton.initialize();
 	}
 
