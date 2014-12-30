@@ -13,7 +13,9 @@ import edu.wpi.first.wpilibj.templates.RobotSensors;
  */
 public class RobotAuton {
 
-	private static boolean switchA = false, switchB = false, switchC = false;
+	private static boolean switchA = false;
+	private static boolean switchB = false;
+	private static boolean switchC = false;
 
 	public boolean queryAutonomousConfiguration(boolean a, boolean b, boolean c) {
 		return switchA == a && switchB == b && switchC == c;
