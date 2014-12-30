@@ -48,7 +48,7 @@ public abstract class RobotShoot {
 		ticks = Math.max(500, Math.min(1400, ticks));
 		givenTensionTargetTicks = ticks;
 		tensionTargetTicks = ticks;
-		tensionTargetTicks = Math.max(500, Math.min(1400, tensionTargetTicks));
+		tensionTargetTicks = MathUtils.capValueMinMax(tensionTargetTicks, 500, 1400);
 		SmartDashboard.putNumber("shooter TICKS", ticks);
 		SmartDashboard.putNumber("shooter TARGET TICKS", tensionTargetTicks);
 		SmartDashboard.putNumber("shooter GIVEN TICKS", givenTensionTargetTicks);
