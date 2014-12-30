@@ -16,7 +16,7 @@ import edu.wpi.first.wpilibj.templates.RobotSensors;
 /**
  *
  *
- * @author Tyler
+ * @author Nathan
  */
 public abstract class RobotShoot {
 	////VARIABLES---------------------------------------------------------------
