@@ -28,6 +28,7 @@ public abstract class DashboardPut {
 		SmartDashboard.putString("shooter STAGE", RobotShoot.getStage() + "");
 		SmartDashboard.putNumber("shooter STAGE NUMBER", RobotShoot.getStage() + MathUtils.rand(1) / 1000);
 		SmartDashboard.putNumber("shooter LATCH", RobotShoot.isLatched() ? 1 + MathUtils.rand(1) / 1000 : 0 + MathUtils.rand(1) / 1000);
+		SmartDashboard.putNumber("shooter TARGET TICKS", RobotShoot.getTargetTicks());
 
 		SmartDashboard.putNumber("shooter TIMER", RobotShoot.deltaTime());
 		//Pickup diagnostics:

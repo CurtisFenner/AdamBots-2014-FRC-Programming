@@ -44,18 +44,15 @@ public abstract class RobotShoot {
 	public static boolean zeroedBefore = false;
 
 	public static void setTargetTicks(double newTargetTicks) {
-		newTargetTicks = MathUtils.capValueMinMax(tensionTargetTicks, 500, 1400);
 		tensionTargetTicks = MathUtils.capValueMinMax(newTargetTicks, 500, 1400);
-		SmartDashboard.putNumber("shooter TICKS", newTargetTicks);
-		SmartDashboard.putNumber("shooter TARGET TICKS", tensionTargetTicks);
 	}
 
 	public static void adjustTargetUp() {
-		setTargetTicks(tensionTargetTicks + 25);
+		setTargetTicks(getTargetTicks() + 25);
 	}
 
 	public static void adjustTargetDown() {
-		setTargetTicks(tensionTargetTicks - 25);
+		setTargetTicks(getTargetTicks() - 25);
 	}
 
 	//// INIT ------------------------------------------------------------------
@@ -82,8 +79,12 @@ public abstract class RobotShoot {
 		return inManualMode;
 	}
 
+	public static double getTargetTicks() {
+		return tensionTargetTicks;
+	}
+
 	public static boolean isReadyToShoot() {
-		return getStage() == 60 && MathUtils.inRange(getEncoder(), tensionTargetTicks, TENSION_TOLERANCE * 1.5);
+		return getStage() == 60 && MathUtils.inRange(getEncoder(), getTargetTicks(), TENSION_TOLERANCE * 1.5);
 	}
 
 	//// STAGES ----------------------------------------------------------------
@@ -127,11 +128,11 @@ public abstract class RobotShoot {
 	}
 
 	public static void stage60LatchedControlShooterTension() {
-		if (getEncoder() <= tensionTargetTicks - TENSION_TOLERANCE && RobotSensors.shooterLoadedLim.get()) {
+		if (getEncoder() <= getTargetTicks() - TENSION_TOLERANCE && RobotSensors.shooterLoadedLim.get()) {
 			automatedWind();
-		} else if (getEncoder() >= tensionTargetTicks + TENSION_TOLERANCE && !getAtBack()) {
+		} else if (getEncoder() >= getTargetTicks() + TENSION_TOLERANCE && !getAtBack()) {
 			automatedUnwind();
-			if (Math.abs(getEncoder() - tensionTargetTicks) < TENSION_TOLERANCE * 3) {
+			if (Math.abs(getEncoder() - getTargetTicks()) < TENSION_TOLERANCE * 3) {
 				multiplySpeed(1.0 / 5.0);
 			}
 		} else {
