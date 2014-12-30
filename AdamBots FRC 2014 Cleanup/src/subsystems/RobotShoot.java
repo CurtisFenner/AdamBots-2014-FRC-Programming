@@ -44,11 +44,11 @@ public abstract class RobotShoot {
 	//and returns the limit value
 	public static boolean zeroedBefore = false;
 
-	public static void setTargetTicks(double ticks) {
-		ticks = MathUtils.capValueMinMax(tensionTargetTicks, 500, 1400);
-		givenTensionTargetTicks = ticks;
-		tensionTargetTicks = MathUtils.capValueMinMax(ticks, 500, 1400);
-		SmartDashboard.putNumber("shooter TICKS", ticks);
+	public static void setTargetTicks(double newTargetTicks) {
+		newTargetTicks = MathUtils.capValueMinMax(tensionTargetTicks, 500, 1400);
+		givenTensionTargetTicks = newTargetTicks;
+		tensionTargetTicks = MathUtils.capValueMinMax(newTargetTicks, 500, 1400);
+		SmartDashboard.putNumber("shooter TICKS", newTargetTicks);
 		SmartDashboard.putNumber("shooter TARGET TICKS", tensionTargetTicks);
 		SmartDashboard.putNumber("shooter GIVEN TICKS", givenTensionTargetTicks);
 	}
