@@ -21,7 +21,6 @@ public class StandardOneBallAuton {
 
 	public static final double STRAIGHT_DISTANCE = 450; // needs to be found in testing
 	public static final double BACKWARDS_DISTANCE = 0; // needs to be found in testing
-	public static double averageDriveEncoder;
 	private static Timer timer;
 	public static double fallTimer = 2.0;
 	public static double closeTime = 2.0;
@@ -54,15 +53,15 @@ public class StandardOneBallAuton {
 
 		double forward = -1.0;
 
-		if (averageDriveEncoder <= STRAIGHT_DISTANCE) {
-			RobotDrive.drive(forward, forward);
+		if (RobotDrive.getEncoderAverageTicks() <= STRAIGHT_DISTANCE) {
+			RobotDrive.driveStraight(forward);
 		} else {
 			RobotDrive.stopDrive();
 		}
 
 		RobotPickup.moveToShootPosition();
 
-		if (RobotPickup.isPickupInShootPosition() && averageDriveEncoder >= STRAIGHT_DISTANCE) {
+		if (RobotPickup.isPickupInShootPosition() && RobotDrive.getEncoderAverageTicks() >= STRAIGHT_DISTANCE) {
 			step = 3;
 		}
 	}
@@ -70,9 +69,9 @@ public class StandardOneBallAuton {
 	// init
 	public static void initialize() {
 		timer = new Timer();
+		secondTimer = new Timer();
 		step = 1;
 		startMovingBack = 0.0;
-		secondTimer = new Timer();
 		RobotShoot.setTargetTicks(TENSION_VALUE);	// AUTON TARGET TICKS
 	}
 
