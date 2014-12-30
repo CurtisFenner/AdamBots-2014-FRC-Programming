@@ -92,15 +92,16 @@ public abstract class RobotShoot {
 
 	//// STAGES ----------------------------------------------------------------
 	// releases the latch
-	public static void pauseAfterFiring() {
-
+	public static void stage30PauseAfterFiring() {
+		// stage 30
 		releaseLatch();
 		if (deltaTime() >= WAIT_TIME) {
 			changeStage(40);
 		}
 	}
 
-	public static void windToBack() {
+	public static void stage40WindToBack() {
+		// stage 40
 		releaseLatch();
 		automatedUnwind();
 		if (getAtBack()) {
@@ -110,7 +111,8 @@ public abstract class RobotShoot {
 		}
 	}
 
-	public static void windTooFarBack() {
+	public static void stage45WindTooFarBack() {
+		// stage 45
 		// for when the back isn't encountered (due to electrical or mechanical failure)
 		releaseLatch();
 		automatedUnwind();
@@ -120,7 +122,7 @@ public abstract class RobotShoot {
 		}
 	}
 
-	public static void latchShooterAtBack() {
+	public static void stage50LatchShooterAtBack() {
 		closeLatch();
 		stopSpeed();
 		if (deltaTime() >= 0.5) {
@@ -128,7 +130,7 @@ public abstract class RobotShoot {
 		}
 	}
 
-	public static void latchedControlShooterTension() {
+	public static void stage60LatchedControlShooterTension() {
 		if (getEncoder() <= tensionTargetTicks - TENSION_TOLERANCE && RobotSensors.shooterLoadedLim.get()) {
 			automatedWind();
 		} else if (getEncoder() >= tensionTargetTicks + TENSION_TOLERANCE && !getAtBack()) {
@@ -165,19 +167,19 @@ public abstract class RobotShoot {
 		// shoots
 		switch (getStage()) {
 			case 30:
-				pauseAfterFiring();
+				stage30PauseAfterFiring();
 				break;
 			case 40:
-				windToBack();
+				stage40WindToBack();
 				break;
 			case 45:
-				windTooFarBack();
+				stage45WindTooFarBack();
 				break;
 			case 50:
-				latchShooterAtBack();
+				stage50LatchShooterAtBack();
 				break;
 			case 60:
-				latchedControlShooterTension();
+				stage60LatchedControlShooterTension();
 				break;
 			default:
 				break;
