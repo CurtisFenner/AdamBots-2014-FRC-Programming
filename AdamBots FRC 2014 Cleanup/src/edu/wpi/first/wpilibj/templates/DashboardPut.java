@@ -30,7 +30,7 @@ public abstract class DashboardPut {
 		SmartDashboard.putNumber("shooter LATCH", RobotShoot.isLatched() ? 1 + MathUtils.rand(1) / 1000 : 0 + MathUtils.rand(1) / 1000);
 		SmartDashboard.putNumber("shooter TARGET TICKS", RobotShoot.getTargetTicks());
 
-		SmartDashboard.putNumber("shooter TIMER", RobotShoot.stageTime());
+		SmartDashboard.putNumber("shooter TIMER", RobotShoot.getStageTime());
 		//Pickup diagnostics:
 		SmartDashboard.putNumber("pickup ARM ANGLE", RobotPickup.getArmAngleAboveHorizontal());
 		SmartDashboard.putNumber("pickup ARM ANGLE TARGET", RobotPickup.getArmTargetAngle());

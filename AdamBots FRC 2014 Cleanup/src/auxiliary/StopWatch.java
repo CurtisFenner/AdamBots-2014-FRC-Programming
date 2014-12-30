@@ -22,4 +22,7 @@ public final class StopWatch {
 	public double deltaSeconds() {
 		return timer.get() - markTime;
 	}
+	public boolean isAfter(double time) {
+		return deltaSeconds() >= time;
+	}
 }
