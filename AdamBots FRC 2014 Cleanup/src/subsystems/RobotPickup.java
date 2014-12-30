@@ -1,7 +1,7 @@
 package subsystems;
 
 import auxiliary.MathUtils;
-import edu.wpi.first.wpilibj.Timer;
+import auxiliary.StopWatch;
 import edu.wpi.first.wpilibj.templates.RobotActuators;
 import edu.wpi.first.wpilibj.templates.RobotSensors;
 
@@ -25,8 +25,7 @@ public abstract class RobotPickup {
 	private static double armTargetAngle = CATCH_POSITION;
 	private static double lastPosition = 0.0;
 	private static double velocity = 0.0;
-	private static Timer timer;
-	private static double lastTime = 0;
+	private static final StopWatch watch = new StopWatch();
 
 	public static double getArmTargetAngle() {
 		return armTargetAngle;
@@ -127,21 +126,21 @@ public abstract class RobotPickup {
 	}
 
 	public static void initialize() {
-		timer = new Timer();
-		timer.start();
 	}
 
 	public static void update() {
 
-		double now = timer.get();
-		if (now - lastTime < 0.2) {
-			velocity = 0.5 * velocity + 0.5 * (getArmAngleAboveHorizontal() - lastPosition) / (now - lastTime);
+		double deltaTime = watch.deltaSeconds();
+		watch.markEvent();
+
+		if (deltaTime < 0.2) {
+			velocity = 0.5 * velocity + 0.5 * (getArmAngleAboveHorizontal() - lastPosition) / deltaTime;
 		} else {
 			// been more than 0.2 seconds since last time
 			// so assumed it's stopped
 			velocity = 0;
 		}
-		lastTime = now;
+
 		lastPosition = getArmAngleAboveHorizontal();
 
 		double mechSpeed = 0.0;

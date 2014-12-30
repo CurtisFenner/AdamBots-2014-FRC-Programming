@@ -5,7 +5,6 @@
  */
 package subsystems;
 
-import edu.wpi.first.wpilibj.*;
 import auxiliary.MathUtils;
 import edu.wpi.first.wpilibj.templates.RobotActuators;
 import edu.wpi.first.wpilibj.templates.RobotSensors;
