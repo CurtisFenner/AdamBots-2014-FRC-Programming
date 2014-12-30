@@ -22,10 +22,17 @@ public class StandardOneBallAuton {
 	public static final double STRAIGHT_DISTANCE = 450; // needs to be found in testing
 	public static final double BACKWARDS_DISTANCE = 0; // needs to be found in testing
 	public static double averageDriveEncoder;
-	public static Timer timer;
+	private static Timer timer;
 	public static double fallTimer = 2.0;
 	public static double closeTime = 2.0;
 	public static int step;
+	//// VARIABLES -------------------------------------------------------------
+	public static final double speed = 0.5;
+	private static double startMovingBack;
+	public static final int TENSION_VALUE = 1090; //downloaded to robot for Q26
+	public static final double openingTime = 0.5;
+	public static final double currentTime = 0.0;
+	private static Timer secondTimer;
 
 	// reset all Encoders
 	public static void reset() {
@@ -59,13 +66,6 @@ public class StandardOneBallAuton {
 			step = 3;
 		}
 	}
-	//// VARIABLES -------------------------------------------------------------
-	public static final double speed = 0.5;
-	public static double startMovingBack;
-	public static final int TENSION_VALUE = 1090; //downloaded to robot for Q26
-	public static double openingTime = 0.5;
-	public static double currentTime = 0.0;
-	public static Timer secondTimer;
 
 	// init
 	public static void initialize() {
