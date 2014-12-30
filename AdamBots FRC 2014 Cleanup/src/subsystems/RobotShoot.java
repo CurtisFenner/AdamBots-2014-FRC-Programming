@@ -34,7 +34,7 @@ public abstract class RobotShoot {
 	private static double givenTensionTargetTicks = 1165;
 	private static double currentSpeed;
 	private static boolean inManualMode = true;
-	private static boolean latch;
+	private static boolean unlatched;
 	private static int stage;
 	private static StopWatch stopWatch = new StopWatch();
 	private static StopWatch.Time stageStartTime = null;
@@ -161,8 +161,7 @@ public abstract class RobotShoot {
 
 	// Automated shoot
 	public static void automatedShoot() {
-		SmartDashboard.putString("Current Shooter Stage", getStage() + "");
-		SmartDashboard.putNumber("Shooter Timer", deltaTime());
+
 		// shoots
 		switch (getStage()) {
 			case 30:
@@ -184,8 +183,7 @@ public abstract class RobotShoot {
 				break;
 		}
 
-		SmartDashboard.putNumber("shooter LATCH", latch ? 1 + MathUtils.rand(1) / 1000 : 0 + MathUtils.rand(1) / 1000);
-		SmartDashboard.putNumber("shooter STAGE", getStage() + MathUtils.rand(1) / 1000);
+
 
 	}
 
@@ -218,12 +216,16 @@ public abstract class RobotShoot {
 
 	// Releases the pnuematic
 	public static void releaseLatch() {
-		latch = true;
+		unlatched = true;
 	}
 
 	// latches the pnuematic
 	public static void closeLatch() {
-		latch = false;
+		unlatched = false;
+	}
+
+	public static boolean isLatched() {
+		return unlatched == false;
 	}
 
 	// get the limit switch
@@ -259,7 +261,7 @@ public abstract class RobotShoot {
 			stopSpeed();
 		}
 		// sets pnuematics
-		RobotActuators.latchRelease.set(latch);
+		RobotActuators.latchRelease.set(unlatched);
 
 		// sets motor
 		RobotActuators.shooterWinch.set(getCurrentSpeed());

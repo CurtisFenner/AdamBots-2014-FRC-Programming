@@ -4,6 +4,7 @@
  */
 package edu.wpi.first.wpilibj.templates;
 
+import auxiliary.MathUtils;
 import subsystems.RobotShoot;
 import subsystems.RobotPickup;
 import subsystems.RobotVision;
@@ -24,6 +25,11 @@ public abstract class DashboardPut {
 		SmartDashboard.putBoolean("shooter TARGET MANUAL", RobotTeleop.isTargetManual());
 		SmartDashboard.putBoolean("shooter AT BACK", RobotShoot.getAtBack());
 		SmartDashboard.putNumber("shooter CURRENT SPEED", RobotShoot.getCurrentSpeed());
+		SmartDashboard.putString("shooter STAGE", RobotShoot.getStage() + "");
+		SmartDashboard.putNumber("shooter STAGE NUMBER", RobotShoot.getStage() + MathUtils.rand(1) / 1000);
+		SmartDashboard.putNumber("shooter LATCH", RobotShoot.isLatched() ? 1 + MathUtils.rand(1) / 1000 : 0 + MathUtils.rand(1) / 1000);
+
+		SmartDashboard.putNumber("shooter TIMER", RobotShoot.deltaTime());
 		//Pickup diagnostics:
 		SmartDashboard.putNumber("pickup ARM ANGLE", RobotPickup.getArmAngleAboveHorizontal());
 		SmartDashboard.putNumber("pickup ARM ANGLE TARGET", RobotPickup.getArmTargetAngle());
