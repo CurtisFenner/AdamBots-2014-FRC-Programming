@@ -6,6 +6,7 @@
 package autons;
 
 import edu.wpi.first.wpilibj.templates.RobotSensors;
+import subsystems.RobotDrive;
 
 /**
  *
@@ -27,6 +28,11 @@ public class RobotAuton {
 		switchB = RobotSensors.configSwitchB.get();
 		switchC = RobotSensors.configSwitchC.get();
 		StandardOneBallAuton.initialize();
+	}
+	
+	public static void reset() {
+		RobotDrive.resetEncoders();
+		//RobotSensors.shooterWinchEncoder.reset();
 	}
 
 	// Periodic updates

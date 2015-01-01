@@ -26,12 +26,6 @@ public class StandardOneBallAuton {
 	private static final StopWatch stageTimer = new StopWatch();
 	private static final StopWatch autonTimer = new StopWatch();
 
-	// reset all Encoders
-	public static void reset() {
-		RobotDrive.resetEncoders();
-		//RobotSensors.shooterWinchEncoder.reset();
-	}
-
 	private static void changeStage(int newStage) {
 		stage = newStage;
 		stageTimer.markEvent();
