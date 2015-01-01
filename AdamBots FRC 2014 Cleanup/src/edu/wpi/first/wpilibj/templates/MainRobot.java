@@ -105,7 +105,7 @@ public class MainRobot extends IterativeRobot {
 	 */
 	public void teleopPeriodic() {
 		try {
-			RobotTeleop.teleop();
+			RobotTeleop.runTeleop();
 
 			updateSystems();
 

@@ -10,6 +10,7 @@ import subsystems.RobotPickup;
 import subsystems.RobotVision;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import teleop.TeleopShoot;
 
 /**
  *
@@ -22,7 +23,7 @@ public abstract class DashboardPut {
 		SmartDashboard.putNumber("shooter EXPECT CURRENT", RobotShoot.getEncoder() * 0.01);
 		SmartDashboard.putNumber("shooter ENCODER", RobotShoot.getEncoder());
 		SmartDashboard.putBoolean("shooter MANUAL", RobotShoot.isInManualMode());
-		SmartDashboard.putBoolean("shooter TARGET MANUAL", RobotTeleop.isTargetManual());
+		SmartDashboard.putBoolean("shooter TARGET MANUAL", TeleopShoot.isTargetManual());
 		SmartDashboard.putBoolean("shooter AT BACK", RobotShoot.getAtBack());
 		SmartDashboard.putNumber("shooter CURRENT SPEED", RobotShoot.getCurrentSpeed());
 		SmartDashboard.putString("shooter STAGE", RobotShoot.getStage() + "");
