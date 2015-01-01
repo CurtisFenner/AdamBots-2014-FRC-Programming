@@ -42,17 +42,19 @@ public abstract class TeleopShoot {
 			}
 			boolean adjustDown = Gamepad.secondary.getDPadLeft();
 			boolean adjustUp = Gamepad.secondary.getDPadRight();
-			if (!adjustDown && !adjustUp) {
-				targetAdjustDebounce = false;
-			}
-			if (targetAdjustDebounce) {
-				return;
-			}
+
 			if (adjustDown) {
-				RobotShoot.adjustTargetDown();
-			}
-			if (adjustUp) {
-				RobotShoot.adjustTargetUp();
+				if (!targetAdjustDebounce) {
+					targetAdjustDebounce = true;
+					RobotShoot.adjustTargetDown();
+				}
+			} else if (adjustUp) {
+				if (!targetAdjustDebounce) {
+					targetAdjustDebounce = true;
+					RobotShoot.adjustTargetUp();
+				}
+			} else {
+				targetAdjustDebounce = false;
 			}
 		}
 	}
