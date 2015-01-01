@@ -9,7 +9,7 @@ import edu.wpi.first.wpilibj.templates.RobotSensors;
 
 /**
  *
- * @author Tyler
+ * @author Curtis
  */
 public class RobotAuton {
 

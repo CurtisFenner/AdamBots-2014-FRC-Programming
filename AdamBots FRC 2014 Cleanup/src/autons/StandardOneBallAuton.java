@@ -14,7 +14,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  *
- * @author Tyler
+ * @author Nathan
  */
 public class StandardOneBallAuton {
 
