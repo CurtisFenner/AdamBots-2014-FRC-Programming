@@ -127,7 +127,7 @@ public abstract class RobotPickup {
 
 	public static void initialize() {
 		// Nothing required to initialize
-		// (potentiometer calibrated in getArmAngleAboveHorizontal())x
+		// (potentiometer calibrated in getArmAngleAboveHorizontal())
 	}
 
 	public static void update() {
