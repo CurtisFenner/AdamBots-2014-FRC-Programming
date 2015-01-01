@@ -42,7 +42,6 @@ public abstract class RobotShoot {
 
 	// unwindes the shooter until it hits the back limit switch or reaches max revolutions
 	//and returns the limit value
-	public static boolean zeroedBefore = false;
 
 	public static void setTargetTicks(double newTargetTicks) {
 		tensionTargetTicks = MathUtils.capValueMinMax(newTargetTicks, 500, 1400);
@@ -65,7 +64,6 @@ public abstract class RobotShoot {
 
 	public static void startShoot() {
 		changeStage(30);
-		zeroedBefore = false;
 	}
 
 	public static void useManual() {
@@ -161,7 +159,7 @@ public abstract class RobotShoot {
 	}
 
 	// Automated shoot
-	public static void automatedShootUpdate() {
+	private static void automatedShootUpdate() {
 
 		// shoots
 		switch (getStage()) {
@@ -194,7 +192,7 @@ public abstract class RobotShoot {
 	}
 
 	// used for calibration
-	public static void manualShootUpdate() {
+	private static void manualShootUpdate() {
 		changeStage(-99);
 		setSpeed(manualSpeed);
 
@@ -221,12 +219,12 @@ public abstract class RobotShoot {
 	}
 
 	// Releases the pnuematic
-	public static void releaseLatch() {
+	private static void releaseLatch() {
 		unlatched = true;
 	}
 
 	// latches the pnuematic
-	public static void closeLatch() {
+	private static void closeLatch() {
 		unlatched = false;
 	}
 
@@ -277,7 +275,7 @@ public abstract class RobotShoot {
 		return stage;
 	}
 
-	public static void changeStage(int nextStage) {
+	private static void changeStage(int nextStage) {
 		stopWatch.markEvent();
 		stage = nextStage;
 	}

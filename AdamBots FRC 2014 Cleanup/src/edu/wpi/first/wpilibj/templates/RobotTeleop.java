@@ -173,12 +173,6 @@ public abstract class RobotTeleop {
 		if (Gamepad.primary.getStart()) {
 			targetInManualMode = false;
 		}
-
-		// Override to force the shooter to rezero on next contact with the
-		// limit switch[?]
-		if (Gamepad.primary.getX() && Gamepad.primary.getY()) {
-			RobotShoot.zeroedBefore = false;
-		}
 	}
 
 	public static void teleop() {
