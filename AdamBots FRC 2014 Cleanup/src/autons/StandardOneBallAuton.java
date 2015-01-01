@@ -11,7 +11,6 @@ import subsystems.RobotDrive;
 import subsystems.RobotPickup;
 import subsystems.RobotVision;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj.templates.RobotSensors;
 
 /**
  *
