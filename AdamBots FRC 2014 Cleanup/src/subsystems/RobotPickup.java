@@ -126,14 +126,19 @@ public abstract class RobotPickup {
 	}
 
 	public static void initialize() {
+		// Nothing required to initialize
+		// (potentiometer calibrated in getArmAngleAboveHorizontal())x
 	}
 
 	public static void update() {
 
-		double deltaTime = watch.deltaSeconds();
-		watch.markEvent();
+		double deltaTime = watch.deltaSeconds(); // Time since last update()
+		watch.markEvent(); // for computing instantaneous velocity
 
 		if (deltaTime < 0.2) {
+			// Exponential motion of velocity toward actual measured velocity
+			// to combat noise.
+			// (A weighted average between historical and experimental)
 			velocity = 0.5 * velocity + 0.5 * (getArmAngleAboveHorizontal() - lastPosition) / deltaTime;
 		} else {
 			// been more than 0.2 seconds since last time
@@ -143,28 +148,39 @@ public abstract class RobotPickup {
 
 		lastPosition = getArmAngleAboveHorizontal();
 
-		double mechSpeed = 0.0;
 		double targetAngleDifference = armTargetAngle - getArmAngleAboveHorizontal();
 		double targetSpeed = MathUtils.capValueMinMax(targetAngleDifference * 0.02, -0.225, 0.3);
 
-		if (Math.abs(targetAngleDifference) < 3.5 + (armTargetAngle < 0 ? 3 : 0)) {
+		double angleTolerance;
+		if (armTargetAngle < 0) {
+			angleTolerance = 6.5;
+		} else {
+			angleTolerance = 3.5;
+		}
+
+		if (Math.abs(targetAngleDifference) < angleTolerance) {
+			// At desired location
 			targetSpeed = 0;
 		}
 
 		if (targetAngleDifference > 0) {
+			// Below the target -- push harder
 			targetSpeed *= 1.5;
 		}
 
 		if (lastPosition > 80 && armTargetAngle < 80) {
+			// Arm has trouble getting down from the top -- kick it down
 			targetSpeed *= 1.8;
 		}
 
-		if (armTargetAngle > -10 && lastPosition < 0) {
+		if (armTargetAngle > -10 && lastPosition < -10) {
+			// Arm has a LOT of trouble at the bottom, so push hard
 			targetSpeed = 1;
 		}
 
 		double amt = -targetSpeed; // since up is negative
 
+		double mechSpeed = 0.0;
 		if (amt < 0 && (!isUpperLimitReached())) {
 			mechSpeed = amt;
 		}
