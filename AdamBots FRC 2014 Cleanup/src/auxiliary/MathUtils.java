@@ -58,7 +58,6 @@ public class MathUtils {
 	}
 
 	//// SIGN ------------------------------------------------------------------
-
 	public static int capValueMinMax(int value, int min, int max) {
 		return Math.max(min, Math.min(max, value));
 	}
@@ -71,15 +70,15 @@ public class MathUtils {
 		return Math.abs(value - target) <= range;
 	}
 
-	public static double deadzone(double x,double zoneRadius) {
+	public static double deadzone(double x, double zoneRadius) {
 		return Math.abs(x) < zoneRadius ? 0 : x;
 	}
 
-	public static double toward(double x,double target, double amount) {
+	public static double toward(double x, double target, double amount) {
 		if (Math.abs(x - target) <= amount) {
 			return target;
 		} else {
-			return x + sign( target - x ) * amount;
+			return x + sign(target - x) * amount;
 		}
 	}
 
