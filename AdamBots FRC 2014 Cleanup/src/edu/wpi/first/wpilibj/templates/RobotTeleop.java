@@ -153,6 +153,9 @@ public abstract class RobotTeleop {
 
 		if (shooterInManualMode) {
 			RobotShoot.useManual();
+			double manualSpeed = Gamepad.secondary.getRightY();
+			boolean manualReleaseLatch = Math.abs(Gamepad.secondary.getTriggers()) > .8;
+			RobotShoot.manualControlValues(manualSpeed,manualReleaseLatch);
 		} else {
 			RobotShoot.useAutomatic();
 		}

@@ -6,7 +6,6 @@
 package subsystems;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import frcclasses.Gamepad;
 import edu.wpi.first.wpilibj.templates.MainRobot;
 import auxiliary.MathUtils;
 import auxiliary.StopWatch;
@@ -36,6 +35,9 @@ public abstract class RobotShoot {
 	private static boolean unlatched;
 	private static int stage;
 	private static StopWatch stopWatch = new StopWatch();
+
+	private static double manualSpeed = 0.0;
+	private static boolean manualReleaseLatch = false;
 
 
 	// unwindes the shooter until it hits the back limit switch or reaches max revolutions
@@ -67,6 +69,7 @@ public abstract class RobotShoot {
 	}
 
 	public static void useManual() {
+		manualControlValues(0,false); // default to 0 speed, closed latch
 		inManualMode = true;
 	}
 
@@ -185,12 +188,17 @@ public abstract class RobotShoot {
 
 	}
 
+	public static void manualControlValues(double manualSpeed, boolean manualReleaseLatch) {
+		RobotShoot.manualSpeed = manualSpeed;
+		RobotShoot.manualReleaseLatch = manualReleaseLatch;
+	}
+
 	// used for calibration
 	public static void manualShootUpdate() {
 		changeStage(-99);
-		setSpeed(Gamepad.secondary.getRightY());
+		setSpeed(manualSpeed);
 
-		if (Math.abs(Gamepad.secondary.getTriggers()) > .8 && RobotPickup.pickupCanShoot()) {
+		if (manualReleaseLatch && RobotPickup.pickupCanShoot()) {
 			releaseLatch();
 		} else {
 			closeLatch();
