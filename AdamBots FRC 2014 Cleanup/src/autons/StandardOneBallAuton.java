@@ -5,11 +5,11 @@
  */
 package autons;
 
+import auxiliary.StopWatch;
 import subsystems.RobotShoot;
 import subsystems.RobotDrive;
 import subsystems.RobotPickup;
 import subsystems.RobotVision;
-import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.templates.RobotSensors;
 
@@ -19,114 +19,103 @@ import edu.wpi.first.wpilibj.templates.RobotSensors;
  */
 public class StandardOneBallAuton {
 
-	public static final double STRAIGHT_DISTANCE = 450; // needs to be found in testing
-	public static final double BACKWARDS_DISTANCE = 0; // needs to be found in testing
-	private static Timer timer;
-	public static double fallTimer = 2.0;
-	public static double closeTime = 2.0;
-	public static int step;
+	private static final double STRAIGHT_DISTANCE_TICKS = 450; // needs to be found in testing
 	//// VARIABLES -------------------------------------------------------------
-	public static final double speed = 0.5;
-	private static double startMovingBack;
-	public static final int TENSION_VALUE = 1090; //downloaded to robot for Q26
-	public static final double openingTime = 0.5;
-	public static final double currentTime = 0.0;
-	private static Timer secondTimer;
+	private static final int TENSION_VALUE = 1090; //downloaded to robot for Q26
+	///
+	private static int stage = 0;
+	private static final StopWatch stageTimer = new StopWatch();
+	private static final StopWatch autonTimer = new StopWatch();
 
 	// reset all Encoders
 	public static void reset() {
-		RobotSensors.leftDriveEncoder.reset();
-		RobotSensors.rightDriveEncoder.reset();
+		RobotDrive.resetEncoders();
 		//RobotSensors.shooterWinchEncoder.reset();
-		timer.stop();
-		timer.reset();
 	}
 
-	public static void stepOne() {
-		if (timer.get() == 0) {
-			timer.start();
-			RobotShoot.startShoot();
-			RobotDrive.disableSmoothing();
-			RobotPickup.moveToShootPosition();
-			System.out.println("start at 0");
-		}
-
-		double forward = -1.0;
-
-		if (RobotDrive.getEncoderAverageTicks() <= STRAIGHT_DISTANCE) {
-			RobotDrive.driveStraight(forward);
-		} else {
-			RobotDrive.stopDrive();
-			if (RobotPickup.isPickupInShootPosition()) {
-				step = 3;
-			}
-		}
-
+	private static void changeStage(int newStage) {
+		stage = newStage;
+		stageTimer.markEvent();
 	}
 
 	// init
 	public static void initialize() {
-		timer = new Timer();
-		secondTimer = new Timer();
-		step = 1;
-		startMovingBack = 0.0;
+		autonTimer.markEvent();
+
+		changeStage( 1 ); // begin the auton procedure
+
+	}
+
+	private static void stageOne() {
+		RobotShoot.startShoot();
 		RobotShoot.setTargetTicks(TENSION_VALUE);	// AUTON TARGET TICKS
+		RobotDrive.disableSmoothing();
+		RobotPickup.moveToShootPosition();
+		System.out.println("start at 0");
+
+		changeStage(2);
+
 	}
 
-
-	// shoots if the goal is hot or timer says so
-	public static void stepThree() {
-		RobotPickup.openRollerArm();
-		if (secondTimer.get() == 0 && RobotVision.isHot() && RobotShoot.isReadyToShoot()) {
-			secondTimer.start();
-		}
-		if ((secondTimer.get() >= 0.5 || timer.get() >= 7.0) && RobotShoot.isReadyToShoot()) {
-			secondTimer.stop();
-			secondTimer.reset();
-			RobotShoot.shoot();
-			//FileWrite.writeFile("autonshot.txt", "\nhot: " + RobotVision.isHot() + "\nTime: " + timer.get());
-			startMovingBack = timer.get() + 0.5;
-			step = 99;
-			// If you ever want to move back after shooting in autonous, change to step 4;
-		}
-	}
-
-	// waits 0.5 seconds
-	public static void stepFour() {
-		if (startMovingBack <= timer.get()) {
-			step = 5;
-		}
-	}
-
-	// moves back to the white line
-	public static void stepFive() {
-		if (RobotDrive.getEncoderAverageTicks() >= BACKWARDS_DISTANCE) {
-			double forward = 1.0;
-			RobotDrive.drive(forward, forward);
+	private static void stageTwo() {
+		double forward = -1;
+		if (RobotDrive.getEncoderAverageTicks() <= STRAIGHT_DISTANCE_TICKS) {
+			RobotDrive.driveStraight(forward);
 		} else {
 			RobotDrive.stopDrive();
-			step = 99;
+			if (RobotPickup.isPickupInShootPosition()) {
+				changeStage(3);
+			}
 		}
+	}
+
+	private static void stageThree() {
+		RobotPickup.openRollerArm();
+		if (RobotShoot.isReadyToShoot()) {
+			changeStage(4);
+		}
+	}
+
+	private static void stageFour() {
+		if (stageTimer.hasElapsed(0.5)) {
+			changeStage(5);
+		}
+	}
+
+	private static void stageFive() {
+		if (RobotVision.isHot() || autonTimer.hasElapsed(7)) {
+			changeStage(6);
+		}
+	}
+
+	private static void stageSix() {
+		RobotShoot.shoot();
+		changeStage(99);
 	}
 
 	// update method
 	public static void update() {
 		SmartDashboard.putBoolean("Pickup in shoot", RobotPickup.isPickupInShootPosition());
 		SmartDashboard.putBoolean("vision IS HOT", RobotVision.isHot());
-		switch (step) {
+		switch (stage) {
 			case 1:
-				stepOne();
+				stageOne();
+				break;
+			case 2:
+				stageTwo();
 				break;
 			case 3:
-				stepThree();
+				stageThree();
 				break;
-			// Case 4, 5 make robot move backward
-			/*case 4:
-			 stepFour();
-			 break;
-			 case 5:
-			 stepFive();
-			 break;*/
+			case 4:
+				stageFour();
+				break;
+			case 5:
+				stageFive();
+				break;
+			case 6:
+				stageSix();
+				break;
 			default:
 				break;
 		}

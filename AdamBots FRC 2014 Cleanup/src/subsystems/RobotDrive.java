@@ -70,6 +70,11 @@ public abstract class RobotDrive {
 		return getEncoderRightTicks(); // the left is broken on the competition robot
 	}
 
+	public static void resetEncoders() {
+		RobotSensors.leftDriveEncoder.reset();
+		RobotSensors.rightDriveEncoder.reset();
+	}
+
 	public static void update() {
 
 		double shift_left = (MathUtils.sign(targetSpeedLeft) == MathUtils.sign(targetSpeedLeft - currentSpeedLeft)) ? shift_up : shift_down;
